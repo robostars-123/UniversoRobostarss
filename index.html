@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FLL BIOGLOW • Central da Equipe — v9</title>
+<style>
+:root{
+  --red:#e5242a; --red2:#b9151a; --green:#4d8d32; --green2:#2f6d27;
+  --blue:#1d83a8; --blue2:#0f5e7b; --ink:#17313a; --muted:#61727a;
+  --cream:#f7fbf7; --card:#fff; --line:#dce8e5; --yellow:#f5c84b;
+  --shadow:0 10px 28px rgba(22,55,63,.09); --radius:18px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:linear-gradient(180deg,#eef8f0 0,#f8fbfa 420px,#f4f8f7 100%);}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.app{display:flex;min-height:100vh}
+.sidebar{width:270px;background:#12363d;color:#fff;position:sticky;top:0;height:100vh;padding:22px 16px;overflow:auto}
+.brand{display:flex;gap:12px;align-items:center;padding:8px 8px 20px;border-bottom:1px solid rgba(255,255,255,.14)}
+.brand-mark{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#e5242a,#f5c84b);display:grid;place-items:center;font-weight:900;color:#fff;font-size:20px}
+.brand h1{font-size:17px;margin:0}.brand small{color:#b8d4d1}
+.season{margin:18px 6px;padding:13px;border-radius:14px;background:linear-gradient(135deg,#315e2d,#1c4c51);font-size:13px}
+.nav{display:grid;gap:7px;margin-top:12px}.nav button{border:0;background:transparent;color:#d9ebe8;text-align:left;padding:11px 12px;border-radius:12px;display:flex;gap:10px;align-items:center}.nav button:hover,.nav button.active{background:#245159;color:#fff}.nav .ico{width:22px;text-align:center}
+.sidebar-foot{margin-top:20px;font-size:11px;color:#a7c2bf;line-height:1.5;padding:8px}
+.main{flex:1;min-width:0}
+.topbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:12px 24px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.topbar strong{font-size:14px}.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:0;border-radius:11px;padding:9px 12px;background:#eaf2f1;color:var(--ink);font-weight:700}.btn:hover{filter:brightness(.97)}.btn.primary{background:var(--red);color:#fff}.btn.green{background:var(--green);color:#fff}.btn.blue{background:var(--blue);color:#fff}.btn.ghost{background:transparent;border:1px solid var(--line)}
+.content{padding:26px;max-width:1450px;margin:auto}
+.view{display:none}.view.active{display:block}
+.hero{background:linear-gradient(120deg,#174c50,#2f6d27 55%,#75a93e);color:#fff;border-radius:24px;padding:30px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:270px;height:270px;border-radius:50%;right:-80px;top:-100px;background:rgba(255,255,255,.1)}
+.hero h2{font-size:34px;line-height:1.05;margin:0 0 8px;max-width:720px}.hero p{max-width:800px;color:#e7f4ef;margin:0 0 18px;line-height:1.55}.chips{display:flex;flex-wrap:wrap;gap:8px}.chip{padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.14);font-size:12px}
+.grid{display:grid;gap:16px}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+.section-title{display:flex;justify-content:space-between;gap:10px;align-items:end;margin:25px 0 12px}.section-title h3{margin:0;font-size:19px}.section-title p{margin:0;color:var(--muted);font-size:13px}
+.stat{padding:17px;border-radius:16px;background:#fff;border:1px solid var(--line)}.stat .n{font-size:29px;font-weight:900}.stat .l{font-size:12px;color:var(--muted)}
+.progress{height:9px;background:#e6eeee;border-radius:99px;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--yellow),var(--green));border-radius:99px}
+.kpi-row{display:flex;align-items:center;justify-content:space-between;gap:10px}.muted{color:var(--muted)}.small{font-size:12px}
+.field{display:grid;gap:6px;margin-bottom:12px}.field label{font-size:12px;font-weight:800;color:#496067}.field input,.field textarea,.field select{width:100%;border:1px solid var(--line);background:#fbfdfc;border-radius:11px;padding:10px;color:var(--ink);outline:none}.field textarea{min-height:90px;resize:vertical}.field input:focus,.field textarea:focus,.field select:focus{border-color:#6bb1c5;box-shadow:0 0 0 3px rgba(29,131,168,.1)}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.full{grid-column:1/-1}
+.area-head{display:flex;gap:13px;align-items:center;margin-bottom:10px}.area-icon{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-size:21px;background:#e8f4ef}.area-head h3{margin:0}.area-head p{margin:3px 0 0;font-size:12px;color:var(--muted)}
+.tag{display:inline-flex;padding:5px 8px;border-radius:999px;font-size:11px;font-weight:800;background:#eef4f3;color:#4b6268}.tag.red{background:#ffe7e8;color:#a71d22}.tag.green{background:#e9f5e7;color:#2d6b2b}.tag.blue{background:#e3f3f8;color:#17637d}.tag.yellow{background:#fff5cf;color:#856511}
+.checklist{display:grid;gap:8px}.check{display:flex;gap:9px;align-items:flex-start;padding:9px;border:1px solid var(--line);border-radius:11px;background:#fbfdfc}.check input{margin-top:3px;accent-color:var(--green)}.check span{font-size:13px;line-height:1.35}
+table{width:100%;border-collapse:separate;border-spacing:0;overflow:hidden;border:1px solid var(--line);border-radius:14px;font-size:12px}th,td{padding:9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{background:#f0f6f4;font-size:11px;text-transform:uppercase;letter-spacing:.03em}tr:last-child td{border-bottom:0}td input,td select{width:100%;border:1px solid #d9e5e2;border-radius:8px;padding:7px;background:#fff}
+.tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:15px}.tab{border:1px solid var(--line);background:#fff;padding:8px 12px;border-radius:10px;font-weight:800;color:#53686d}.tab.active{background:#173f46;color:#fff;border-color:#173f46}
+.timeline{display:grid;gap:10px}.timeline-item{display:grid;grid-template-columns:55px 1fr auto;gap:12px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:13px;background:#fff}.time{font-weight:900;color:var(--red)}
+.mission{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff;display:grid;gap:9px}.mission-top{display:flex;justify-content:space-between;gap:8px}.mission h4{margin:0;font-size:14px}.mission small{color:var(--muted)}.mission-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.mini-input{width:100%;border:1px solid var(--line);border-radius:8px;padding:7px}.score-box{font-size:27px;font-weight:900}
+.range-row{display:grid;grid-template-columns:1fr 70px;gap:8px;align-items:center}.range-row input{width:100%;accent-color:var(--green)}
+.rubric{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:10px}.rubric-head{padding:11px 13px;background:#edf5f3;font-weight:900}.rubric-body{padding:12px}.level-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.level{border:1px solid var(--line);border-radius:10px;padding:9px;font-size:11px;line-height:1.3}.level strong{display:block;font-size:14px;margin-bottom:3px}.level.active{border-color:#4b943f;background:#eef8ec}
+.core-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.core{border:1px solid var(--line);border-radius:16px;padding:15px;background:#fff}.core .emoji{font-size:24px}.core h4{margin:7px 0 3px}.core p{font-size:12px;color:var(--muted);line-height:1.45;margin:0}
+.kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.column{background:#f0f5f4;border-radius:14px;padding:10px;min-height:190px}.column h4{margin:4px 3px 10px;font-size:12px;text-transform:uppercase;color:#557078}.task{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px;margin-bottom:8px;box-shadow:0 3px 9px rgba(20,50,55,.05)}.task b{font-size:12px}.task small{display:block;color:var(--muted);margin-top:4px}
+.timer{font-size:62px;font-variant-numeric:tabular-nums;font-weight:900;text-align:center;letter-spacing:-2px}.timer-state{text-align:center;color:var(--muted);margin-bottom:12px}
+.top-edit-btn{border:0;background:#eef5f2;border:1px solid var(--line);border-radius:11px;padding:8px 11px;font-size:18px;cursor:pointer}.top-edit-btn:hover{transform:translateY(-1px)}
+.modal{position:fixed;inset:0;background:rgba(8,27,32,.58);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}.modal.open{display:flex}.modal-box{background:#fff;border-radius:20px;max-width:680px;width:100%;max-height:90vh;overflow:auto;padding:20px}.modal-head{display:flex;justify-content:space-between;align-items:center}.modal-head h3{margin:0}.close{border:0;background:#eef3f2;border-radius:10px;padding:7px 10px}
+.toast{position:fixed;right:20px;bottom:20px;background:#173f46;color:#fff;padding:11px 14px;border-radius:11px;display:none;z-index:70;font-size:13px;box-shadow:var(--shadow)}
+.empty{padding:25px;text-align:center;color:var(--muted);border:1px dashed #c8d8d5;border-radius:13px}
+.footer-note{font-size:11px;color:#73858a;line-height:1.5;margin-top:20px}
+@media(max-width:1050px){.sidebar{width:220px}.g4{grid-template-columns:repeat(2,1fr)}.core-grid{grid-template-columns:repeat(2,1fr)}.kanban{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){.app{display:block}.sidebar{position:static;width:auto;height:auto}.nav{grid-template-columns:repeat(2,1fr)}.main{width:100%}.topbar{position:static}.content{padding:16px}.g3,.g2,.form-grid,.core-grid,.kanban{grid-template-columns:1fr}.g4{grid-template-columns:repeat(2,1fr)}.level-grid{grid-template-columns:repeat(2,1fr)}.timeline-item{grid-template-columns:45px 1fr}.timeline-item .tag{grid-column:2}.hero h2{font-size:27px}.mission-grid{grid-template-columns:1fr}}
+@media print{.sidebar,.topbar,.no-print{display:none!important}.main{width:100%}.content{padding:0}.view{display:none!important}.view.active{display:block!important}.card,.hero{box-shadow:none}.hero{color:#000;background:#eee}.print-break{break-before:page}}
+
+/* ===== MÓDULO BIODIVERSIDADE / NOVOS RECURSOS ===== */
+.bio-banner{background:linear-gradient(135deg,#0e4f43,#2d7d3f 48%,#8bbd45);border-radius:22px;padding:24px;color:#fff;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.bio-banner:before,.bio-banner:after{content:"";position:absolute;border:1px solid rgba(255,255,255,.18);border-radius:50%}.bio-banner:before{width:210px;height:210px;right:-55px;top:-85px}.bio-banner:after{width:130px;height:130px;right:95px;bottom:-75px}
+.bio-banner h3{margin:0 0 7px;font-size:24px}.bio-banner p{max-width:860px;margin:0;line-height:1.55;color:#e7f6e9}
+.season-card{background:linear-gradient(135deg,#f4fbef,#fff);border:1px solid #d8e8d2}
+.eco-card{position:relative;overflow:hidden}.eco-card:after{content:"🌿";position:absolute;right:15px;bottom:5px;font-size:54px;opacity:.10}
+.logo-panel{display:grid;grid-template-columns:180px 1fr;gap:18px;align-items:center}
+.logo-preview{width:180px;height:180px;border-radius:22px;border:2px dashed #b9ceca;background:#eff7f4;display:grid;place-items:center;overflow:hidden;text-align:center;color:#72868a;font-size:12px;padding:10px}
+.logo-preview img{width:100%;height:100%;object-fit:contain}
+.photo-preview{width:110px;height:110px;border-radius:18px;border:2px dashed #bfd2ce;background:#f1f7f5;display:grid;place-items:center;overflow:hidden;color:#74878b;font-size:11px;text-align:center;padding:7px}
+.photo-preview img{width:100%;height:100%;object-fit:cover}
+.member-grid{display:grid;grid-template-columns:110px 1fr;gap:14px;align-items:start}
+.photo-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}.photo-actions .btn{padding:6px 8px;font-size:11px}
+.plan-phase{border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-bottom:14px;background:#fff}
+.plan-phase-head{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:13px 15px;background:linear-gradient(90deg,#eef7e8,#fff);border-bottom:1px solid var(--line)}
+.plan-phase-head h4{margin:0}.plan-phase-head span{font-size:11px;color:var(--muted)}
+.plan-task{display:grid;grid-template-columns:34px minmax(180px,1.4fr) 110px 140px minmax(170px,1fr);gap:8px;align-items:center;padding:9px 12px;border-bottom:1px solid #edf2f1}
+.plan-task:last-child{border-bottom:0}.plan-task input,.plan-task select{width:100%;border:1px solid var(--line);border-radius:8px;padding:7px;background:#fff}
+.plan-task textarea{width:100%;min-height:48px;border:1px solid var(--line);border-radius:8px;padding:7px;resize:vertical}
+.plan-done{accent-color:var(--green);width:18px;height:18px}
+.plan-help{padding:10px 12px;background:#fbfdfb;font-size:11px;color:var(--muted);border-bottom:1px solid var(--line)}
+.build-card{border-left:5px solid var(--green);background:linear-gradient(90deg,#f4fbf0,#fff)}
+.build-step{display:block;border:1px solid var(--line);border-radius:13px;padding:11px;margin-bottom:9px;background:#fff}
+.build-step>.specific-toggle{display:block;width:100%;}
+.build-step>.specific-content{display:block;clear:both}
+.build-step>.btn.no-print{display:inline-flex;margin-top:10px}
+.build-num{width:34px;height:34px;border-radius:11px;background:#e7f4e2;display:grid;place-items:center;font-weight:900;color:var(--green2)}
+.build-step h4{margin:0 0 3px}.build-step p{margin:0;color:var(--muted);font-size:12px;line-height:1.4}
+.error-check{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr auto;gap:8px;align-items:start;border:1px solid var(--line);padding:10px;border-radius:12px;margin-bottom:8px;background:#fff}
+.error-check input,.error-check select{width:100%;border:1px solid var(--line);border-radius:8px;padding:7px}
+.strategy-box{background:#f4faf6;border:1px solid #d4e7d9;border-radius:16px;padding:15px}
+.strategy-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.diary-entry{border:1px solid var(--line);border-radius:15px;padding:0;background:#fff;margin-bottom:10px;overflow:hidden}.evidence-entry{border:1px solid var(--line);border-radius:15px;background:#fff;margin-bottom:10px;overflow:hidden}.diary-entry .specific-toggle,.evidence-entry .specific-toggle{width:100%;border:0;background:transparent;text-align:left;padding:14px;cursor:pointer}.diary-entry .specific-content,.evidence-entry .specific-content{padding:0 14px 14px}
+.diary-head{display:grid;grid-template-columns:130px 1fr 1fr;gap:8px;margin-bottom:9px}
+.diary-entry input,.diary-entry select,.diary-entry textarea{width:100%;border:1px solid var(--line);border-radius:9px;padding:8px}
+.diary-entry textarea{min-height:70px;resize:vertical}
+.gallery-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.gallery-item{border:1px solid var(--line);border-radius:15px;overflow:hidden;background:#fff}.gallery-image{height:180px;background:#eef5f2;display:grid;place-items:center;color:#718388}.gallery-image img{width:100%;height:100%;object-fit:cover}.gallery-info{padding:10px}.gallery-info b{display:block}.gallery-info small{color:var(--muted)}
+.dynamic-card{border:1px solid var(--line);border-radius:16px;padding:16px;background:#fff;display:grid;gap:8px}.dynamic-card h4{margin:0}.dynamic-card .steps{font-size:12px;line-height:1.55;color:var(--muted)}.dynamic-card button{justify-self:start}
+.dynamic-result{background:#f5fbf6;border-radius:11px;padding:10px;font-size:12px}
+.quote-card{background:linear-gradient(135deg,#fff8d8,#f5fbef);border:1px solid #eadf9d}
+.season-facts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.fact{padding:13px;border-radius:14px;background:#fff;border:1px solid var(--line)}.fact b{font-size:22px;display:block}.fact span{font-size:11px;color:var(--muted)}
+@media(max-width:900px){.logo-panel{grid-template-columns:1fr}.gallery-grid{grid-template-columns:repeat(2,1fr)}.season-facts{grid-template-columns:repeat(2,1fr)}.plan-task{grid-template-columns:28px 1fr}.plan-task>*:not(:first-child){grid-column:2}.strategy-grid{grid-template-columns:1fr}.error-check{grid-template-columns:1fr}.diary-head{grid-template-columns:1fr}}
+@media(max-width:560px){.gallery-grid{grid-template-columns:1fr}.season-facts{grid-template-columns:1fr}}
+
+
+/* ===== FREQUÊNCIA, EDIÇÃO E PAINÉIS RECOLHÍVEIS ===== */
+.attendance-table{overflow:auto}.attendance-table table{min-width:720px}
+.attendance-table td,.attendance-table th{text-align:center;vertical-align:middle}.attendance-table td:first-child,.attendance-table th:first-child{text-align:left;position:sticky;left:0;background:#fff;z-index:1}
+.attendance-status{min-width:120px}
+.collapse-toolbar{display:flex;align-items:center;gap:10px;margin:-2px -2px 14px;padding:0 0 9px;border-bottom:1px solid #edf2f1}
+.collapse-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;border:0;background:#f5f9f8;color:var(--ink);border-radius:12px;padding:10px 12px;font-size:13px;font-weight:850;text-align:left;transition:.18s}
+.collapse-toggle:hover{background:#eaf3ef;transform:translateY(-1px)}
+.collapse-title{display:flex;align-items:center;gap:8px;min-width:0}
+.collapse-title-text{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.collapse-arrow{font-size:16px;flex:0 0 auto;color:var(--green2)}
+.card.collapsed>.collapse-content{display:none!important}
+.card.collapsed{padding-bottom:12px}
+.editable-display{cursor:pointer}
+/* Painéis específicos da equipe */
+.specific-toggle{width:100%;border:0;background:transparent;padding:0;text-align:left;cursor:pointer}
+.specific-summary{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 13px;border-radius:13px;background:#f5f9f8;border:1px solid var(--line)}
+.specific-summary:hover{background:#eaf3ef}
+.specific-summary-main{min-width:0}
+.specific-summary-title{font-weight:900;color:var(--ink)}
+.specific-summary-meta{margin-top:3px;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.specific-summary-arrow{font-size:18px;color:var(--green2);flex:0 0 auto}
+.specific-content{margin-top:13px}
+.specific-collapsed>.specific-content{display:none}
+.specific-collapsed{padding-bottom:10px}
+.specific-toggle:focus-visible{outline:3px solid rgba(29,131,168,.25);outline-offset:2px}
+.member-summary{display:grid;grid-template-columns:78px 1fr auto;gap:12px;align-items:center;margin-bottom:12px}
+.member-summary-photo{width:78px;height:78px;border-radius:15px;overflow:hidden;background:#eef5f2;border:1px solid var(--line);display:grid;place-items:center;color:var(--muted);font-size:11px;text-align:center}
+.member-summary-photo img{width:100%;height:100%;object-fit:cover}
+.member-summary-name{font-size:17px;font-weight:900}
+.member-summary-function{font-size:12px;color:var(--muted);margin-top:3px}
+.member-card-collapsible{padding:14px}
+.build-summary{display:grid;grid-template-columns:46px minmax(0,1fr) auto;gap:10px;align-items:center;width:100%;min-height:44px}
+.build-summary-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.build-summary-date{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.build-summary-title{font-weight:900}
+.build-summary-date{font-size:12px;color:var(--muted);margin-top:3px}
+@media(max-width:600px){.member-summary{grid-template-columns:62px 1fr auto}.member-summary-photo{width:62px;height:62px}.build-summary{grid-template-columns:40px 1fr auto}}
+
+.attachment-photo-preview{width:100px;height:74px;border-radius:10px;border:1px solid var(--line);background:#eef5f2;display:grid;place-items:center;overflow:hidden;margin-top:6px}
+.attachment-photo-preview img{width:100%;height:100%;object-fit:cover;display:block}
+.gallery-info .edit-fields{display:grid;gap:7px;margin-bottom:8px}.gallery-info .edit-fields input,.gallery-info .edit-fields textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:7px;background:#fff}.gallery-info .edit-fields textarea{min-height:58px;resize:vertical}
+@media(max-width:760px){.attendance-table table{min-width:600px}}
+
+
+.nature-strip{display:grid;grid-template-columns:1.35fr .8fr .8fr;gap:12px;margin-top:16px}
+.nature-photo{min-height:170px;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.18);box-shadow:0 8px 20px rgba(0,0,0,.12);background:#dfeee2}
+.nature-photo svg{display:block;width:100%;height:100%;min-height:170px}
+.home-personalize{display:grid;grid-template-columns:150px 1fr 150px;gap:18px;align-items:center}
+.home-avatar,.home-logo{height:150px;border-radius:22px;border:2px dashed #bdd2cc;background:#eef7f3;display:grid;place-items:center;overflow:hidden;color:#72868a;text-align:center;font-size:12px;padding:10px}
+.home-avatar img,.home-logo img{width:100%;height:100%;object-fit:cover}
+.home-logo img{object-fit:contain}
+.home-personalize .center h3{margin:0 0 6px}.home-personalize .center p{margin:0 0 12px}
+.home-personalize .center .actions{display:flex;gap:7px;flex-wrap:wrap}
+.question-generator{background:linear-gradient(135deg,#f1f9f1,#fff);border:1px solid #d7e7d8;border-radius:18px;padding:16px}
+.question-card{border:1px solid var(--line);border-radius:16px;background:#fff;padding:18px;min-height:155px;display:grid;gap:9px}
+.question-card .q{font-size:18px;font-weight:850;line-height:1.35}
+.question-meta{display:flex;gap:7px;flex-wrap:wrap}.difficulty-btns{display:flex;gap:7px;flex-wrap:wrap}
+.timer30{font-size:64px;text-align:center;font-weight:950;letter-spacing:-2px;font-variant-numeric:tabular-nums}
+.timer30-note{text-align:center;color:var(--muted);margin-bottom:12px}
+@media(max-width:850px){.nature-strip{grid-template-columns:1fr}.home-personalize{grid-template-columns:1fr;text-align:center}.home-avatar,.home-logo{width:150px;margin:auto}}
+
+
+/* Editor de imagens e sorteio da equipe */
+.image-editable{cursor:pointer;position:relative}
+.image-editable::after{content:"✎";position:absolute;right:8px;bottom:8px;background:rgba(18,54,61,.86);color:#fff;border-radius:10px;padding:5px 7px;font-size:12px;opacity:.9}
+.image-editor{display:grid;grid-template-columns:minmax(260px,1fr) 230px;gap:16px;align-items:start}
+.crop-stage{height:360px;background:#eaf2ef;border-radius:16px;display:grid;place-items:center;overflow:hidden;border:1px solid var(--line);position:relative}
+.crop-stage canvas{max-width:100%;max-height:100%;display:block}
+.crop-controls{display:grid;gap:12px}.crop-controls label{font-size:12px;font-weight:800;color:#496067}.crop-controls input[type=range]{width:100%;accent-color:var(--green)}
+.draw-card{background:linear-gradient(135deg,#fff9df,#f2faee);border:1px solid #e6dfb0}
+.draw-result{min-height:62px;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px;border-radius:13px;background:#fff;border:1px dashed #cfded8;font-weight:850;font-size:18px}
+@media(max-width:760px){.image-editor{grid-template-columns:1fr}.crop-stage{height:300px}}
+</style>
+
+<style id="robostars-universe-theme">
+/* Universo RoboStars — visual identity for the home page */
+.hero-title{
+  letter-spacing:-0.045em !important;
+  font-size:clamp(2.4rem,5vw,4.4rem) !important;
+  line-height:1.02 !important;
+  font-weight:900 !important;
+  background:linear-gradient(100deg,#1b4332 0%,#2d6a4f 38%,#40916c 70%,#74c69d 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent !important;
+}
+.hero-subtitle{
+  margin-top:.55rem;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:#2d6a4f;
+}
+#dashboard{
+  position:relative;
+  overflow:hidden;
+}
+#dashboard::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 92% 10%,rgba(116,198,157,.22) 0 7%,transparent 7.5%),
+    radial-gradient(circle at 82% 23%,rgba(64,145,108,.13) 0 11%,transparent 11.5%),
+    radial-gradient(circle at 12% 88%,rgba(45,106,79,.10) 0 15%,transparent 15.5%);
+}
+#dashboard .hero-title,
+#dashboard .hero-subtitle,
+#dashboard .hero-card,
+#dashboard .team-brand,
+#dashboard .nature-strip,
+#dashboard .dashboard-grid,
+#dashboard .dashboard-content{
+  position:relative;
+  z-index:1;
+}
+</style>
+
+
+<style id="universo-robostars-title">
+.universe-home-title{
+  margin: 0 0 1.25rem;
+  padding: 1.1rem 1.25rem;
+  border-left: 5px solid #2d6a4f;
+  border-radius: 0 18px 18px 0;
+  background: linear-gradient(90deg, rgba(45,106,79,.10), rgba(116,198,157,.05), transparent);
+}
+.universe-kicker{
+  font-size:.75rem;
+  font-weight:800;
+  letter-spacing:.12em;
+  color:#40916c;
+  text-transform:uppercase;
+  margin-bottom:.25rem;
+}
+.universe-heading{
+  font-size:clamp(1.7rem,3.5vw,2.7rem);
+  line-height:1;
+  font-weight:900;
+  letter-spacing:.035em;
+  color:#1b4332;
+}
+</style>
+
+
+<style id="robostars-sidebar-layout">
+/* Barra lateral da equipe — identidade Universo RoboStars */
+@media (min-width: 980px){
+  .app-shell, .app-layout, .layout, .main-layout{
+    /* Preserve existing layout rules; the selectors below are additive. */
+  }
+}
+
+/* If the application already has a sidebar, strengthen its visual identity. */
+aside{
+  background:
+    linear-gradient(180deg, rgba(27,67,50,.98), rgba(45,106,79,.97) 62%, rgba(27,67,50,.99));
+  color:#fff;
+}
+aside a, aside button, aside [role="button"]{
+  color:inherit;
+}
+aside a:hover, aside button:hover, aside [role="button"]:hover{
+  background:rgba(255,255,255,.10);
+}
+
+/* Team-information label at the top of the sidebar */
+.robostars-sidebar-label{
+  margin:0 0 .85rem;
+  padding:.85rem .9rem;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:16px;
+  background:rgba(255,255,255,.08);
+  text-align:left;
+}
+.robostars-sidebar-label strong{
+  display:block;
+  font-size:1rem;
+  letter-spacing:.06em;
+}
+.robostars-sidebar-label span{
+  display:block;
+  margin-top:.18rem;
+  font-size:.72rem;
+  opacity:.78;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.about-team-card{padding:18px}.about-team-header{display:grid;grid-template-columns:180px 1fr;gap:20px;align-items:center}.about-team-summary{min-width:0}.about-team-title-row{display:flex;align-items:center;justify-content:space-between;gap:10px}.about-team-title-row h3{margin:0}.about-team-text{margin:8px 0 0;color:var(--muted);line-height:1.6;white-space:pre-wrap}.image-pencil{border:0;background:#173f46;color:#fff;border-radius:10px;padding:7px 9px}.team-about-editor-fields{background:#f6fbf7;border:1px solid var(--line);padding:12px;border-radius:13px}.build-summary-photo,.build-summary-photo-empty{width:58px;height:44px;border-radius:9px;border:1px solid var(--line);object-fit:cover;background:#eef5f2;display:grid;place-items:center;color:var(--muted)}.attachment-card{margin-bottom:10px;padding:12px}.attachment-summary{display:grid;grid-template-columns:minmax(0,1fr) 72px auto;gap:12px;align-items:center;width:100%}.attachment-summary-name{font-weight:900}.attachment-summary-date{font-size:12px;color:var(--muted);margin-top:3px}.attachment-summary-photo,.attachment-summary-photo-empty{width:72px;height:54px;border-radius:9px;border:1px solid var(--line);object-fit:cover;background:#eef5f2;display:grid;place-items:center;color:var(--muted)}
+@media(max-width:650px){.about-team-header{grid-template-columns:1fr}.attachment-summary{grid-template-columns:1fr 60px auto}.attachment-summary-photo,.attachment-summary-photo-empty{width:60px;height:46px}}
+</style>
+
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand">
+    <div class="brand-mark">FLL</div>
+    <div><h1>Central da Equipe</h1><small>BIOGLOW™ 2026/2027</small></div>
+  </div>
+  <nav class="nav">
+    <button class="active" data-view="dashboard"><span class="ico">🌿</span>Temporada 2026/2027</button>
+    <button data-view="team"><span class="ico">👥</span>Equipe</button>
+    <button data-view="meetings"><span class="ico">📋</span>Reuniões</button>
+    <button data-view="innovation"><span class="ico">💡</span>Projeto de Inovação</button>
+    <button data-view="design"><span class="ico">🤖</span>Design do Robô</button>
+    <button data-view="challenge"><span class="ico">🏁</span>Desafio do Robô</button>
+    <button data-view="values"><span class="ico">💚</span>Core Values</button>
+    <button data-view="evidence"><span class="ico">📚</span>Evidências</button>
+    <button data-view="evaluation"><span class="ico">🎤</span>Sala de avaliação</button>
+    <button data-view="gallery"><span class="ico">📸</span>Nossa Galeria</button>
+  </nav>
+  <div class="sidebar-foot">🌿 BIOGLOW™: aprender com a natureza, trabalhar em equipe, testar, melhorar e compartilhar. Para torneios oficiais no Brasil, confira sempre as publicações oficiais do SESI e as atualizações da temporada.</div>
+</aside>
+
+<main class="main">
+<div class="topbar">
+  <strong id="topTitle">Visão geral da temporada</strong>
+  <div class="actions no-print">
+    <button class="top-edit-btn" type="button" onclick="openTopTools()" title="Editar e acessar ferramentas">✏️</button>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="view active">
+  <div class="card" style="margin-bottom:24px">
+    <div class="home-personalize" style="grid-template-columns:1fr 1.4fr 1fr;align-items:center">
+      <div>
+        <div class="home-avatar image-editable" id="homeTeamPhotoPreview" style="min-height:180px" onclick="openHomePhotoEditor()" title="Clique no ✏️ para adicionar, trocar, excluir, baixar ou ajustar a foto"></div>
+        <input id="homeTeamPhotoInput" type="file" accept="image/jpeg,image/png,image/webp,image/*" hidden>
+      </div>
+      <div class="center">
+        <div class="universe-home-title" aria-label="Universo RoboStars">
+          <div class="universe-kicker">FLL 2026/2027 • BIOGLOW</div>
+          <div class="universe-heading">UNIVERSO ROBOSTARS</div>
+        </div>
+<h2 id="homeTeamName" style="margin:0 0 8px">Nossa equipe</h2>
+      </div>
+      <div>
+        <div class="home-logo image-editable" id="homeTeamLogoPreview" style="min-height:180px" onclick="openHomeLogoEditor()" title="Clique no ✏️ para adicionar, trocar, excluir, baixar ou ajustar a logo"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title"><div><h3>🎲 Sorteio de responsável</h3><p>Sorteie um integrante para definir quem ficará responsável por preencher a central.</p></div></div>
+  <div class="card draw-card">
+    <div class="draw-result" id="drawMemberResult">Cadastre os integrantes na seção “Equipe” para realizar o sorteio.</div>
+    <div style="display:flex;justify-content:center;margin-top:12px" class="no-print">
+      <button class="btn primary" onclick="drawTeamMember()">🎲 Sortear integrante</button>
+    </div>
+  </div>
+
+  <div class="section-title"><div><h3>📅 Frequência da equipe</h3><p>Registre a presença dos integrantes em cada encontro.</p></div><button class="btn green no-print" onclick="addAttendance()">＋ Registrar data</button></div>
+  <div class="card"><div id="attendanceWrap"></div></div>
+
+  <div class="section-title"><div><h3>Temporada 2026/2027</h3></div></div>
+  <div class="card">
+    <h2 style="margin-top:0">BIOGLOW™</h2>
+    <p style="line-height:1.7">A temporada 2026/2027 convida as equipes a explorar a biodiversidade e as conexões entre os seres vivos, os ambientes e as pessoas. Ao longo da temporada, a equipe desenvolve conhecimentos, cria soluções, constrói e programa o robô, realiza missões e fortalece os valores da equipe.</p>
+    <p style="line-height:1.7;margin-bottom:0">Nesta central, a equipe pode organizar seu processo de trabalho, registrar decisões, acompanhar tarefas, documentar descobertas e reunir evidências para a preparação.</p>
+  </div>
+
+  <div class="section-title"><div><h3>Panorama da equipe</h3><p>O progresso é calculado a partir das tarefas concluídas.</p></div></div>
+  <div class="grid g4" id="stats"></div>
+
+  <div class="section-title"><div><h3>Quatro áreas para acompanhar</h3><p>Use cada espaço para registrar o processo, não apenas o resultado.</p></div></div>
+  <div class="grid g2">
+    <div class="card area-card" onclick="go('innovation')"><div class="area-head"><div class="area-icon">💡</div><div><h3>Projeto de Inovação</h3><p>Problema → pesquisa → solução → feedback → impacto</p></div></div><div class="progress"><i id="pInnovation" style="width:0%"></i></div><p class="small muted" id="tInnovation">0% concluído</p></div>
+    <div class="card area-card" onclick="go('design')"><div class="area-head"><div class="area-icon">🤖</div><div><h3>Design do Robô</h3><p>Construção → engenharia → melhoria → comunicação</p></div></div><div class="progress"><i id="pDesign" style="width:0%"></i></div><p class="small muted" id="tDesign">0% concluído</p></div>
+    <div class="card area-card" onclick="go('challenge')"><div class="area-head"><div class="area-icon">🏁</div><div><h3>Desafio do Robô</h3><p>Missões, estratégia, treino e pontuação</p></div></div><div class="progress"><i id="pChallenge" style="width:0%"></i></div><p class="small muted" id="tChallenge">0% concluído</p></div>
+    <div class="card area-card" onclick="go('values')"><div class="area-head"><div class="area-icon">💚</div><div><h3>Core Values</h3><p>Trabalho em Equipe, Descoberta, Inclusão, Inovação, Impacto e Diversão</p></div></div><div class="progress"><i id="pValues" style="width:0%"></i></div><p class="small muted" id="tValues">0% registrado</p></div>
+  </div>
+
+  <div class="section-title"><div><h3>Próximos passos</h3><p>Priorize ações que geram evidências para a avaliação.</p></div><button class="btn primary no-print" onclick="openTaskModal()">＋ Nova tarefa</button></div>
+  <div class="card" id="nextTasks"></div>
+
+  <div class="section-title"><div><h3>Kanban da equipe</h3><p>Organize as tarefas por situação.</p></div><button class="btn primary no-print" onclick="openTaskModal()">＋ Tarefa</button></div>
+  <div class="kanban" id="kanban"></div>
+</section>
+
+<!-- TEAM -->
+<section id="team" class="view">
+  <div class="hero"><h2>👥 Identidade da equipe</h2><p>Construa a identidade do grupo, registre as características de cada integrante e dê espaço para que todos se reconheçam como parte da equipe.</p></div>
+
+  <div class="section-title"><div><h3>Sobre a equipe</h3><p>Apresente a equipe, sua identidade e um breve texto sobre quem vocês são.</p></div></div>
+  <div class="card about-team-card">
+    <div class="about-team-header">
+      <div class="logo-preview image-editable" id="teamLogoPreview" onclick="openTeamAboutEditor()" title="Clique no ✏️ para editar a imagem e o texto">🌿<br>Adicione a imagem</div>
+      <div class="about-team-summary">
+        <div class="about-team-title-row"><h3>Sobre a equipe</h3><button type="button" class="image-pencil no-print" onclick="openTeamAboutEditor()" title="Editar sobre a equipe">✏️</button></div>
+        <p id="teamAboutSummary" class="about-team-text">Escreva aqui um pouco sobre a equipe, sua história, seus interesses e o que a torna especial.</p>
+      </div>
+    </div>
+    <input id="teamLogoInput" type="file" accept="image/jpeg,image/png,image/webp,image/*" hidden>
+  </div>
+
+  <div class="section-title"><div><h3>Dados da equipe</h3><p>Informações editáveis e salvas neste navegador.</p></div></div>
+  <div class="card specific-collapsible" id="teamDataCard">
+    <button type="button" class="specific-toggle" onclick="toggleSpecificCard('teamDataCard')" title="Clique para mostrar ou ocultar os dados da equipe">
+      <div class="specific-summary"><div class="specific-summary-main"><div class="specific-summary-title">Dados da equipe</div><div class="specific-summary-meta" id="teamDataSummary">Nome da equipe • Técnico(a)</div></div><span class="specific-summary-arrow" id="teamDataArrow">▸</span></div>
+    </button>
+    <div class="specific-content" id="teamDataContent">
+      <div class="form-grid">
+        <div class="field"><label>Nome da equipe</label><input id="teamName" data-bind placeholder="Ex.: RoboStars"></div>
+        <div class="field"><label>Número da equipe</label><input id="teamNumber" data-bind placeholder="Ex.: 12345"></div>
+        <div class="field"><label>Técnico(a) 1</label><input id="coach1" data-bind></div>
+        <div class="field"><label>Técnico(a) 2</label><input id="coach2" data-bind></div>
+        <div class="field full"><label>Meta da temporada</label><textarea id="teamGoal" data-bind placeholder="O que queremos aprender, construir, melhorar e vivenciar?"></textarea></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title"><div><h3>Quem somos?</h3><p>Registre função, foto, características, interesses e como cada integrante contribui para a equipe.</p></div><button class="btn green no-print" onclick="addMember()">＋ Integrante</button></div>
+  <div class="card"><div id="membersWrap"></div></div>
+
+  <div class="section-title"><div><h3>Diário da equipe</h3><p>Registre os encontros, responsáveis, integrantes observados, comportamentos e próximos passos.</p></div><button class="btn green no-print" onclick="addCoreDiary()">＋ Registro do treino</button></div>
+  <div class="card"><div id="coreDiaryWrap"></div></div>
+
+
+</section>
+
+<!-- INNOVATION -->
+<section id="innovation" class="view">
+  <div class="hero"><h2>💡 Projeto de Inovação</h2><p>Da pesquisa ao impacto: organize o plano, acompanhe a execução, desenvolva a solução, compartilhe, colete feedback e comunique o que a equipe aprendeu.</p></div>
+
+  <div class="section-title"><div><h3>1. Plano de Projeto</h3><p>Comece aqui: execute as quatro fases do plano anexado e registre responsável, prazo, status e evidência.</p></div></div>
+  <div class="card">
+    <div class="plan-help">📌 O plano de projeto organiza o trabalho em quatro fases: definir o problema e pesquisar; desenvolver a solução; compartilhar e coletar feedback; finalizar o projeto. Cada atividade pode ser acompanhada individualmente.</div>
+    <div id="projectPlanWrap"></div>
+  </div>
+
+  <div class="section-title"><div><h3>2. Mapa do Projeto</h3><p>Depois do planejamento, registre problema, pesquisa, solução, feedback e comunicação.</p></div></div>
+  <div class="card">
+    <div class="tabs" id="innovationTabs">
+      <button class="tab active" onclick="showSubtab('innovation','problem')">1. Problema</button>
+      <button class="tab" onclick="showSubtab('innovation','research')">2. Pesquisa</button>
+      <button class="tab" onclick="showSubtab('innovation','solution')">3. Solução</button>
+      <button class="tab" onclick="showSubtab('innovation','feedback')">4. Feedback</button>
+      <button class="tab" onclick="showSubtab('innovation','pitch')">5. Comunicação</button>
+    </div>
+    <div id="innovation-problem" class="subview">
+      <div class="form-grid">
+        <div class="field full"><label>Declaração do problema</label><textarea id="problem" data-bind placeholder="Que problema relacionado à biodiversidade queremos explorar?"></textarea></div>
+        <div class="field"><label>Por que esse problema é importante?</label><textarea id="whyProblem" data-bind></textarea></div>
+        <div class="field"><label>Quem é afetado?</label><textarea id="affected" data-bind></textarea></div>
+        <div class="field full"><label>O que já sabemos e o que ainda precisamos descobrir?</label><textarea id="unknowns" data-bind></textarea></div>
+      </div>
+    </div>
+    <div id="innovation-research" class="subview" style="display:none">
+      <button class="btn green no-print" onclick="addResearch()">＋ Fonte</button>
+      <div style="margin-top:10px" id="researchWrap"></div>
+    </div>
+    <div id="innovation-solution" class="subview" style="display:none">
+      <div class="form-grid">
+        <div class="field full"><label>Nome da solução</label><input id="solutionName" data-bind></div>
+        <div class="field"><label>Como a solução funciona?</label><textarea id="solutionHow" data-bind></textarea></div>
+        <div class="field"><label>O que há de inovador?</label><textarea id="solutionInnovation" data-bind></textarea></div>
+        <div class="field"><label>Protótipo / desenho / modelo</label><textarea id="prototype" data-bind></textarea></div>
+        <div class="field"><label>Como contribui para a biodiversidade?</label><textarea id="biodiversityImpact" data-bind></textarea></div>
+      </div>
+    </div>
+    <div id="innovation-feedback" class="subview" style="display:none">
+      <button class="btn blue no-print" onclick="addFeedback()">＋ Feedback</button>
+      <div style="margin-top:10px" id="feedbackWrap"></div>
+    </div>
+    <div id="innovation-pitch" class="subview" style="display:none">
+      <div class="form-grid">
+        <div class="field"><label>Roteiro da apresentação — 5 min</label><textarea id="pitch" data-bind placeholder="Abertura → problema → pesquisa → solução → impacto → Core Values → celebração."></textarea></div>
+        <div class="field"><label>Como cada integrante participará?</label><textarea id="pitchRoles" data-bind></textarea></div>
+        <div class="field full"><label>Perguntas que os juízes podem fazer</label><textarea id="pitchQuestions" data-bind></textarea></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title"><div><h3>3. Rubrica do Projeto de Inovação</h3><p>Use a autoavaliação para identificar o que precisa ser desenvolvido antes da avaliação.</p></div></div>
+  <div id="innovationRubric"></div>
+</section>
+
+<!-- DESIGN -->
+<section id="design" class="view">
+  <div class="hero"><h2>🤖 Design do Robô</h2><p>Documente a construção, os acessórios e as decisões de engenharia antes de explicar como a equipe planeja, cria, testa e melhora o robô.</p></div>
+
+  <div class="section-title"><div><h3>1. Registro do Processo de Montagem</h3><p>Documente cada etapa da construção com fotos, decisões e aprendizados.</p></div><button class="btn green no-print" onclick="addBuildStep()">＋ Etapa</button></div>
+  <div class="card build-card"><div id="buildStepsWrap"></div></div>
+
+  <div class="section-title"><div><h3>2. Anexos do Robô</h3><p>Registre os acessórios e sua finalidade.</p></div><button class="btn blue no-print" onclick="addRobotAttachment()">＋ Anexo</button></div>
+  <div class="card"><div id="robotAttachmentsWrap"></div></div>
+
+  <div class="section-title"><div><h3>3. Processo de Engenharia</h3><p>Registre estratégia, construção, programação, iterações e o que a equipe aprendeu.</p></div></div>
+  <div class="card">
+    <div class="form-grid">
+      <div class="field"><label>Estratégia de missão</label><textarea id="missionStrategy" data-bind placeholder="Quais missões? Em que ordem? Por quê?"></textarea></div>
+      <div class="field"><label>Base de condução / navegação</label><textarea id="driveBase" data-bind></textarea></div>
+      <div class="field"><label>Construção e acessórios</label><textarea id="attachments" data-bind></textarea></div>
+      <div class="field"><label>Programação e sensores</label><textarea id="programming" data-bind></textarea></div>
+      <div class="field"><label>O que mudou no robô?</label><textarea id="robotIterations" data-bind placeholder="Versão 1 → problema → alteração → resultado."></textarea></div>
+      <div class="field"><label>O que aprendemos?</label><textarea id="robotLearning" data-bind></textarea></div>
+    </div>
+  </div>
+
+  <div class="section-title"><div><h3>4. Rubrica do Design do Robô</h3><p>Autoavalie o processo de identificação, design, criação, iteração e comunicação.</p></div></div>
+  <div id="designRubric"></div>
+</section>
+
+<!-- CHALLENGE -->
+<section id="challenge" class="view">
+  <div class="hero"><h2>🏁 Desafio do Robô</h2><p>Planeje as missões, simule partidas, registre pontuação, confiabilidade, erros e acertos e use os dados para decidir o que melhorar.</p></div>
+
+  <div class="section-title"><div><h3>1. Estratégia de Missões</h3><p>Defina critérios, ordem dos percursos, saídas da base e plano B.</p></div></div>
+  <div class="card strategy-box">
+    <div class="strategy-grid">
+      <div class="field"><label>Critérios para escolher missões</label><textarea id="strategyCriteria" data-bind placeholder="Pontuação, dificuldade, tempo, confiabilidade..."></textarea></div>
+      <div class="field"><label>Ordem dos percursos</label><textarea id="strategyOrder" data-bind placeholder="1 → 4 → 12 → ..."></textarea></div>
+      <div class="field"><label>Plano B</label><textarea id="strategyPlanB" data-bind placeholder="O que faremos se uma missão falhar?"></textarea></div>
+    </div>
+    <div class="field"><label>Roteiro de cada saída da base</label><textarea id="strategyRoutes" data-bind placeholder="Saída → missão → retorno → acessório → próxima saída..."></textarea></div>
+  </div>
+
+  <div class="section-title"><div><h3>2. Treino de Partida</h3><p>Simule a partida oficial de 2min30 e registre as partidas de treino.</p></div></div>
+  <div class="card">
+    <div class="timer" id="timer">2:30</div><div class="timer-state" id="timerState">Pronto para treinar</div>
+    <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap" class="no-print">
+      <button class="btn primary" onclick="startTimer()">▶ Iniciar</button><button class="btn" onclick="pauseTimer()">⏸ Pausar</button><button class="btn" onclick="resetTimer()">↺ Reiniciar</button>
+    </div>
+    <div style="margin-top:16px"><button class="btn blue no-print" onclick="addMatch()">＋ Registrar partida</button></div>
+  </div>
+  <div class="card" style="margin-top:12px"><div id="matchesWrap"></div></div>
+
+  <div class="section-title"><div><h3>3. Missões BIOGLOW™</h3><p>Registre a pontuação possível, a pontuação atingida, tentativas, dificuldade, proximidade, sucessos e observações.</p></div></div>
+  <div class="grid g2" id="missionsWrap"></div>
+
+  <div class="section-title"><div><h3>4. Registro de Erros e Acertos</h3><p>Depois de cada treino, transforme o resultado em uma decisão de melhoria.</p></div><button class="btn green no-print" onclick="addErrorCheck()">＋ Registro</button></div>
+  <div class="card"><div id="errorChecksWrap"></div></div>
+</section>
+
+<!-- VALUES -->
+<section id="values" class="view">
+  <div class="hero"><h2>💚 Core Values</h2><p>Registre como os valores da equipe aparecem nas ações, decisões e experiências vivenciadas durante os treinos e a preparação para a avaliação.</p></div>
+
+  <div class="section-title"><div><h3>1. Registro de Evidências</h3><p>Registre situações concretas que demonstrem os valores.</p></div><button class="btn blue no-print" onclick="addCoreEvidence()">＋ Evidência</button></div>
+  <div class="card"><div id="coreEvidenceWrap"></div></div>
+
+  <div class="section-title"><div><h3>2. Valores em Ação</h3><p>Transforme os seis Core Values em comportamentos observáveis.</p></div></div>
+  <div class="core-grid" id="coreWrap"></div>
+</section>
+
+<!-- EVALUATION -->
+<section id="evaluation" class="view">
+  <div class="hero"><h2>🎤 Sala de Avaliação</h2><p>Prepare a equipe para a sessão: checklist de entrada, simulação de 30 minutos, perguntas sorteadas por categoria e ensaios.</p></div>
+
+  <div class="section-title"><div><h3>1. Checklist da entrada</h3><p>Confirme materiais, apresentações, evidências e participação dos integrantes.</p></div></div>
+  <div class="card"><div class="checklist" id="eventChecklist"></div></div>
+
+  <div class="section-title"><div><h3>Referência da sessão de avaliação</h3><p>Consulte esta sequência durante os ensaios.</p></div></div>
+  <div class="card">
+    <div class="timeline">
+      <div class="timeline-item"><div class="time">2:00</div><div><b>Recepção da equipe</b><div class="small muted">Organização dos materiais e conversa introdutória.</div></div><span class="tag blue">entrada</span></div>
+      <div class="timeline-item"><div class="time">5:00</div><div><b>Projeto de Inovação — apresentação</b><div class="small muted">Apresentação ao vivo da solução.</div></div><span class="tag green">inovação</span></div>
+      <div class="timeline-item"><div class="time">5:00</div><div><b>Projeto de Inovação — perguntas</b><div class="small muted">Perguntas e respostas dos juízes.</div></div><span class="tag green">inovação</span></div>
+      <div class="timeline-item"><div class="time">5:00</div><div><b>Design do Robô — explicação</b><div class="small muted">Processo, decisões, construção e programação.</div></div><span class="tag blue">design</span></div>
+      <div class="timeline-item"><div class="time">5:00</div><div><b>Design do Robô — perguntas</b><div class="small muted">Perguntas e respostas.</div></div><span class="tag blue">design</span></div>
+      <div class="timeline-item"><div class="time">≤8:00</div><div><b>Comentários finais e feedback</b><div class="small muted">Considerações finais e feedback dos juízes.</div></div><span class="tag yellow">final</span></div>
+    </div>
+  </div>
+
+  <div class="section-title"><div><h3>2. Simulação — 30 minutos</h3><p>Use o cronômetro para simular uma sessão completa de preparação/avaliação.</p></div></div>
+  <div class="card">
+    <div class="timer30" id="timer30">30:00</div>
+    <div class="timer30-note" id="timer30State">Pronto para começar</div>
+    <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap" class="no-print">
+      <button class="btn primary" onclick="startTimer30()">▶ Iniciar</button>
+      <button class="btn" onclick="pauseTimer30()">⏸ Pausar</button>
+      <button class="btn" onclick="resetTimer30()">↺ Reiniciar</button>
+    </div>
+  </div>
+
+  <div class="section-title"><div><h3>3. Perguntas sorteadas</h3><p>Escolha a categoria e o nível de dificuldade ou use “Aleatória”.</p></div></div>
+  <div class="question-generator">
+    <div class="form-grid">
+      <div class="field"><label>Categoria</label><select id="questionCategory"><option value="Todas">Todas</option><option>Projeto de Inovação</option><option>Design do Robô</option><option>Desafio do Robô</option><option>Core Values</option></select></div>
+      <div class="field"><label>Dificuldade</label><select id="questionDifficulty"><option value="Aleatória">Aleatória</option><option>Fácil</option><option>Médio</option><option>Difícil</option></select></div>
+    </div>
+    <div id="questionCard" class="question-card"><div class="q">Clique em “Sortear pergunta” para começar.</div><div class="question-meta"><span class="tag blue">Treino</span></div></div>
+    <div style="display:flex;justify-content:center;margin-top:10px" class="no-print"><button class="btn green" onclick="drawQuestion()">🎲 Sortear pergunta</button></div>
+  </div>
+
+  <div class="section-title"><div><h3>4. Registro dos Ensaios</h3><p>Registre data, categoria, duração, feedback e próximo ajuste.</p></div><button class="btn blue no-print" onclick="addRehearsal()">＋ Ensaio</button></div>
+  <div class="card"><div id="rehearsalWrap"></div></div>
+</section>
+
+<!-- MEETINGS -->
+<section id="meetings" class="view">
+  <div class="hero"><h2>📅 Reuniões</h2><p>Registre o que foi realizado em cada encontro da equipe e os responsáveis pelas atividades.</p></div>
+  <div class="section-title">
+    <div><h3>Registro das reuniões</h3><p>Adicione uma linha para cada encontro.</p></div>
+    <button class="btn primary no-print" onclick="addMeeting()">＋ Reunião</button>
+  </div>
+  <div class="card"><div id="meetingsWrap"></div></div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery" class="view">
+  <div class="hero"><h2>📸 Nossa Galeria</h2><p>Registre a jornada da equipe: treinos, montagem, visitas, protótipos, apresentações, torneios e celebrações.</p></div>
+  <div class="section-title"><div><h3>📷 Mural de fotos</h3><p>Adicione fotos com título, data e legenda.</p></div><button class="btn green no-print" onclick="addGalleryItem()">＋ Foto</button></div>
+  <div class="card"><div id="galleryWrap"></div></div>
+</section>
+
+<!-- EVIDENCE -->
+<section id="evidence" class="view">
+  <div class="hero"><h2>📚 Banco de Evidências</h2><p>Centralize links, fotos, vídeos, protótipos, resultados de testes, pesquisas e registros que ajudam a equipe a explicar o processo aos juízes.</p></div>
+  <div class="section-title"><div><h3>Registro de evidências</h3><p>O arquivo não envia nada para a internet; os dados ficam no navegador.</p></div><button class="btn green no-print" onclick="addEvidence()">＋ Evidência</button></div>
+  <div class="card"><div id="evidenceWrap"></div></div>
+  <div class="section-title"><div><h3>Fontes da temporada</h3></div></div>
+  <div class="card">
+    <ul class="small" style="line-height:1.8">
+      <li>Regras de Participação FLL Challenge Brasil 2026/2027 — documento fornecido pela equipe.</li>
+      <li>Rubricas — documento fornecido pela equipe.</li>
+      <li>Fluxograma da Sessão de Avaliação — documento fornecido pela equipe.</li>
+      <li>Livro de Regras do Desafio do Robô — documento fornecido pela equipe.</li>
+      <li>Guia de Reuniões da Equipe — documento fornecido pela equipe.</li>
+      <li>Caderno de Engenharia — documento fornecido pela equipe.</li>
+      <li>FIRST LEGO League — Season Materials / BIOGLOW™ 2026–2027. Consulte as atualizações oficiais antes do torneio.</li>
+    </ul>
+    <p class="footer-note">Esta central é uma ferramenta de organização da equipe. Ela não substitui os documentos oficiais nem as decisões da organização do torneio. No Brasil, o documento de Regras de Participação orienta que somente as informações publicadas pelo SESI no portal oficial sejam consideradas válidas para torneios oficiais.</p>
+  </div>
+</section>
+
+</div>
+</main>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="topToolsModal">
+  <div class="modal-box" style="max-width:520px">
+    <div class="modal-head"><h3>✏️ Ferramentas da central</h3><button class="close" onclick="closeTopTools()">✕</button></div>
+    <p class="small muted" style="margin-top:8px">Use estas opções para salvar, fazer backup, imprimir ou restaurar os dados da equipe.</p>
+    <div class="grid g2" style="margin-top:16px">
+      <button class="btn green" onclick="saveData();closeTopTools()">💾 Salvar</button>
+      <button class="btn" onclick="exportData();closeTopTools()">⬇️ Backup</button>
+      <button class="btn" onclick="window.print()">🖨️ Imprimir</button>
+      <label class="btn" style="display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer">⬆️ Restaurar <input id="importFile" type="file" accept=".json" hidden></label>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="taskModal">
+  <div class="modal-box">
+    <div class="modal-head"><h3>Nova tarefa</h3><button class="close" onclick="closeTaskModal()">✕</button></div>
+    <div class="field" style="margin-top:15px"><label>Tarefa</label><input id="taskTitle"></div>
+    <div class="form-grid">
+      <div class="field"><label>Área</label><select id="taskArea"><option value="Projeto de Inovação">Projeto de Inovação</option><option value="Design do Robô">Design do Robô</option><option value="Desafio do Robô">Desafio do Robô</option><option value="Core Values">Core Values</option><option value="Equipe">Equipe</option></select></div>
+      <div class="field"><label>Responsável</label><input id="taskOwner"></div>
+      <div class="field"><label>Prazo</label><input id="taskDue" type="date"></div>
+      <div class="field"><label>Status</label><select id="taskStatus"><option value="A fazer">A fazer</option><option value="Em andamento">Em andamento</option><option value="Concluída">Concluída</option></select></div>
+    </div>
+    <button class="btn primary" onclick="saveTask()">Adicionar tarefa</button>
+  </div>
+</div>
+
+<div class="modal" id="imageEditorModal">
+  <div class="modal-box">
+    <div class="modal-head"><h3 id="imageEditorTitle">Editar imagem</h3><button class="close" onclick="closeImageEditor()">✕</button></div>
+    <div id="teamAboutEditorFields" class="team-about-editor-fields" style="display:none;margin-top:14px">
+      <div class="field"><label>Texto sobre a equipe</label><textarea id="teamAboutInput" placeholder="Conte um pouco sobre a equipe, sua história, interesses, conquistas e o que vocês valorizam."></textarea></div>
+      <button class="btn green" onclick="saveTeamAboutText()">✓ Salvar texto</button>
+    </div>
+    <div class="image-editor" style="margin-top:14px">
+      <div class="crop-stage"><canvas id="cropCanvas" width="700" height="500"></canvas></div>
+      <div class="crop-controls">
+        <div class="small muted" id="imageEditorHint">Use este espaço para gerenciar a imagem.</div>
+        <label>Zoom <input id="cropZoom" type="range" min="1" max="3" step="0.01" value="1"></label>
+        <label>Enquadramento horizontal <input id="cropX" type="range" min="-1" max="1" step="0.01" value="0"></label>
+        <label>Enquadramento vertical <input id="cropY" type="range" min="-1" max="1" step="0.01" value="0"></label>
+        <input id="replaceImageInput" type="file" accept="image/jpeg,image/png,image/webp,image/*" hidden>
+        <button class="btn blue" id="imageEditorReplaceBtn" onclick="document.getElementById('replaceImageInput').click()">📷 Adicionar/Trocar imagem</button>
+        <button class="btn green" id="imageEditorApplyBtn" onclick="saveEditedImage()">✓ Aplicar enquadramento</button>
+        <button class="btn" id="imageEditorDownloadBtn" onclick="downloadEditedImage()">⬇️ Baixar imagem</button>
+        <button class="btn ghost" id="imageEditorDeleteBtn" onclick="deleteEditedImage()">🗑️ Excluir imagem</button>
+        <button class="btn ghost" onclick="closeImageEditor()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const KEY='fll-bioglow-central-v2';
+const state={
+  team:{teamName:'',teamNumber:'',coach1:'',coach2:'',teamGoal:'',about:''},
+  members:[],
+  research:[],
+  feedback:[],
+  robotTests:[],
+  missions:[],
+  matches:[],
+  coreEvidence:[],
+  rehearsals:[],
+  questions:[],
+  evidence:[],
+  tasks:[],
+  meetings:[],
+  attendance:[],
+  uiCollapsed:{},
+  sessions:Array.from({length:12},(_,i)=>({done:false,note:''})),
+  checklist:{},
+  teamLogo:'',
+  teamPhoto:'',
+  buildSteps:[],
+  robotAttachments:[],
+  errorChecks:[],
+  coreDiary:[],
+  gallery:[],
+  projectPlan:[]
+};
+const missionNames=[
+ 'Levantamento com Drone','Sementes Explosivas','Vire a Rocha','Folhas da Sorte','Raízes que se estendem',
+ 'Formigas Cortadeiras','Fungo Gigante','Emaranhado','Plataforma de Pesquisa','Micro-habitats Sensíveis',
+ 'Janela para o Passado','Ancião da Floresta','Espécies-chave','Sementes da Renovação','Biocentric Architecture'
+];
+const coreValues=[
+ ['🤝','Trabalho em Equipe','Somos mais fortes quando trabalhamos juntos.'],
+ ['🔎','Descoberta','Exploramos habilidades e ideias novas.'],
+ ['🫶','Inclusão','Respeitamos uns aos outros e aceitamos nossas diferenças.'],
+ ['💡','Inovação','Usamos criatividade e persistência para solucionar problemas.'],
+ ['🌎','Impacto','Aplicamos o que aprendemos para melhorar o mundo.'],
+ ['🎉','Diversão','Nos divertimos e celebramos o que fazemos!']
+];
+const sessions=[
+ ['Sessão 1','Primeiros passos','Conhecer a temporada, montar modelos e campo, explorar missões e definir como a equipe quer trabalhar.'],
+ ['Sessão 2','Descoberta','Desenvolver habilidades de programação/construção e começar a explorar ideias para o projeto.'],
+ ['Sessão 3','Problema','Escolher uma ideia/problema relacionado à biodiversidade e registrar a declaração do problema.'],
+ ['Sessão 4','Estratégia de missão','Definir estratégia, experimentar programação e usar testes para melhorar precisão.'],
+ ['Sessão 5','Trabalho em equipe','Aprofundar a pesquisa, escolher se a solução será nova ou aprimorada e selecionar a solução.'],
+ ['Sessão 6','Inovação','Planejar o desenvolvimento da solução, usar fontes diversas e preparar protótipo/desenho.'],
+ ['Sessão 7','Gracious Professionalism','Desenvolver a solução, criar protótipo/desenho e documentar o processo.'],
+ ['Sessão 8','Inclusão','Compartilhar ideias, coletar feedback e decidir quais melhorias incorporar.'],
+ ['Sessão 9','Impacto','Praticar missões, iterar robô e projeto e planejar como demonstrar Core Values no evento.'],
+ ['Sessão 10','Coopertition','Planejar a apresentação de 5 min do projeto e continuar testando robô e solução.'],
+ ['Sessão 11','Diversão','Planejar a explicação de 5 min do design do robô e celebrar o trabalho da equipe.'],
+ ['Sessão 12','Preparação para o evento','Ensaiar apresentações, solicitar feedback e praticar várias partidas de 2min30.']
+];
+const projectPlanPhases=[
+ {phase:'1',title:'Definir o problema e variedade de pesquisas',moment:'Identificação',help:'Pesquisar, comparar e definir um problema relacionado ao tema da temporada.',tasks:[
+  'Levantar 20 problemas referentes ao tema da temporada','Estudar cada problema individualmente','Análise RICE de cada problema levantado','Definição do problema','Aprofundamento de pesquisa relacionado ao problema definido','Reuniões com outras equipes','Visitas técnicas'
+ ]},
+ {phase:'2',title:'Desenvolvimento da solução',moment:'Design / Criação',help:'Transformar a pesquisa em uma solução: ideação, seleção, desenho, materiais, modelo e protótipo.',tasks:[
+  'Brainstorm de soluções','Análise SWOT para escolha da solução','Desenho técnico da solução','Pesquisa de materiais','Modelo 3D da solução','Orçamento','Criação do protótipo 1'
+ ]},
+ {phase:'3',title:'Compartilhamento da solução e coleta de feedbacks para melhorias',moment:'Iteração',help:'Compartilhar protótipos, registrar feedbacks e implementar melhorias.',tasks:[
+  'Compartilhamento do protótipo 1','Elaboração de relatório com melhorias apontadas','Compartilhamento do protótipo 2','Elaboração de relatório com melhorias apontadas','Protótipo 2','Melhorias do protótipo 2','Protótipo 3'
+ ]},
+ {phase:'4',title:'Finalização do Projeto',moment:'Comunicação / Impacto',help:'Consolidar o projeto, compartilhar, documentar e preparar a apresentação no torneio.',tasks:[
+  'Apresentação para outras equipes de FLL','Compartilhamento e feedbacks','Documentação para dar entrada no processo de patente','Apresentação para alunos do curso de arqueologia da universidade','Apresentação no torneio'
+ ]}
+];
+
+const eventItems=[
+ 'Identidade da equipe e funções revisadas','Roteiro de 5 min do Projeto de Inovação ensaiado',
+ 'Perguntas e respostas do Projeto de Inovação praticadas','Explicação de 5 min do Design do Robô ensaiada',
+ 'Perguntas e respostas do Design do Robô praticadas','Robô, acessórios e programas conferidos',
+ 'Modelos da missão e arena conferidos','Registro de testes e melhorias atualizado',
+ 'Evidências do Projeto de Inovação organizadas','Evidências dos Core Values preparadas',
+ 'Todos os integrantes sabem explicar sua contribuição','Equipe pronta para demonstrar Gracious Professionalism e Coopertition'
+];
+
+function storageGet(){try{return localStorage.getItem(KEY)}catch(e){return null}}
+function storageSet(value){try{localStorage.setItem(KEY,value);return true}catch(e){return false}}
+function compressDataUrl(data,max=700,quality=.62){
+ return new Promise(resolve=>{
+  if(!data || !String(data).startsWith('data:image/')) return resolve(data);
+  const img=new Image(); img.onload=()=>{
+   try{
+    const scale=Math.min(1,max/Math.max(img.naturalWidth||img.width,img.naturalHeight||img.height));
+    const c=document.createElement('canvas');c.width=Math.max(1,Math.round((img.naturalWidth||img.width)*scale));c.height=Math.max(1,Math.round((img.naturalHeight||img.height)*scale));
+    const ctx=c.getContext('2d');ctx.drawImage(img,0,0,c.width,c.height);resolve(c.toDataURL('image/jpeg',quality));
+   }catch(e){resolve(data)}
+  }; img.onerror=()=>resolve(data); img.src=data;
+ });
+}
+async function optimizeStoredImages(){
+ const jobs=[];
+ if(state.teamPhoto)jobs.push(compressDataUrl(state.teamPhoto).then(v=>state.teamPhoto=v));
+ if(state.teamLogo)jobs.push(compressDataUrl(state.teamLogo).then(v=>state.teamLogo=v));
+ state.members.forEach(m=>{if(m.photo)jobs.push(compressDataUrl(m.photo).then(v=>m.photo=v))});
+ state.buildSteps.forEach(r=>{if(r.photo)jobs.push(compressDataUrl(r.photo).then(v=>r.photo=v))});
+ state.robotAttachments.forEach(r=>{if(r.photo)jobs.push(compressDataUrl(r.photo).then(v=>r.photo=v))});
+ state.gallery.forEach(r=>{if(r.photo)jobs.push(compressDataUrl(r.photo).then(v=>r.photo=v))});
+ if(jobs.length){await Promise.all(jobs);storageSet(JSON.stringify(state));renderAll();}
+}
+
+function load(){
+  try{
+    const raw=storageGet();
+    if(raw) Object.assign(state,JSON.parse(raw));
+    state.teamLogo ||= ''; state.teamPhoto ||= ''; state.team.about ||= '';  state.buildSteps ||= []; state.robotAttachments ||= []; state.errorChecks ||= []; state.coreDiary ||= []; state.gallery ||= []; state.projectPlan ||= []; state.meetings ||= []; state.attendance ||= []; state.uiCollapsed ||= {};
+    if(state.uiCollapsed.specific_teamDataCard===undefined) state.uiCollapsed.specific_teamDataCard=true;
+    state.members.forEach((m,i)=>{if(!m.id)m.id='m'+(i+1)+'_'+Math.random().toString(36).slice(2,7)});
+    state.attendance.forEach(r=>{r.date ||= ''; r.members ||= {};});
+  }catch(e){console.warn(e)}
+  bindInputs(); renderAll();
+}
+function saveData(){
+  collectInputs();
+  const ok=storageSet(JSON.stringify(state));
+  toast(ok?'Dados salvos neste navegador.':'Dados usados apenas durante esta sessão; o navegador bloqueou o armazenamento local.');
+}
+function collectInputs(){
+  document.querySelectorAll('[data-bind]').forEach(el=>{
+    const id=el.id;if(!id)return;
+    if(state.team.hasOwnProperty(id)) state.team[id]=el.value;
+    else state[id]=el.value;
+  });
+}
+function bindInputs(){
+  document.querySelectorAll('[data-bind]').forEach(el=>{
+    const id=el.id;
+    if(state.team.hasOwnProperty(id)) el.value=state.team[id]||'';
+    else if(state[id]!==undefined) el.value=state[id]||'';
+    el.addEventListener('input',()=>{if(state.team.hasOwnProperty(id))state.team[id]=el.value;else state[id]=el.value;if(id==='teamName')renderHomeBrand(); if(['teamName','coach1','coach2'].includes(id))updateTeamDataSummary(); queueSave()});
+  });
+}
+let saveTimer=null;
+function queueSave(){clearTimeout(saveTimer);saveTimer=setTimeout(()=>{storageSet(JSON.stringify(state));enhanceCollapsibles()},500)}
+function exportData(){
+  collectInputs();saveData();
+  const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='fll-bioglow-backup.json';a.click();URL.revokeObjectURL(a.href);
+}
+document.getElementById('importFile').addEventListener('change',e=>{
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=()=>{try{Object.assign(state,JSON.parse(reader.result));saveData();renderAll();bindInputs();closeTopTools();toast('Backup restaurado.')}catch(err){toast('Arquivo de backup inválido.')}};reader.readAsText(file);
+});
+
+function go(view){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById(view).classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===view));
+  const labels={dashboard:'Temporada BIOGLOW™',team:'Identidade da Equipe',innovation:'Projeto de Inovação',design:'Design do Robô',challenge:'Desafio do Robô',values:'Core Values',evaluation:'Dia da Avaliação',meetings:'Reuniões',gallery:'Galeria & Dinâmicas',evidence:'Banco de Evidências'};
+  document.getElementById('topTitle').textContent=labels[view];
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>go(b.dataset.view));
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',2300)}
+function openTopTools(){document.getElementById('topToolsModal')?.classList.add('open')}
+function closeTopTools(){document.getElementById('topToolsModal')?.classList.remove('open')}
+
+function renderAll(){
+  renderMembers();renderResearch();renderFeedback();renderMissions();renderMatches();
+  renderCore();renderCoreEvidence();renderCoreDiary();renderRehearsals();renderEvidence();renderMeetings();renderTasks();renderKanban();renderProjectPlan();renderBuildSteps();renderRobotAttachments();renderErrorChecks();renderGallery();renderDynamics();renderTeamLogo();renderTeamAbout();renderHomeBrand();
+  renderRubrics();renderChecklist();renderAttendance();updateStats();
+  enhanceCollapsibles();
+  restoreSpecificCollapsed();
+}
+
+function addAttendance(){
+ if(!state.members.length)return toast('Cadastre os integrantes na seção “Equipe” primeiro.');
+ const rec={date:new Date().toISOString().slice(0,10),members:{}};
+ state.members.forEach(m=>{rec.members[m.id]='Presente'});
+ state.attendance.push(rec);renderAttendance();queueSave();
+}
+function removeAttendance(i){state.attendance.splice(i,1);renderAttendance();queueSave()}
+function renderAttendance(){
+ const w=document.getElementById('attendanceWrap');if(!w)return;
+ if(!state.members.length){w.innerHTML='<div class="empty">Cadastre os integrantes na seção “Equipe” para começar o registro de frequência.</div>';return}
+ if(!state.attendance.length){w.innerHTML='<div class="empty">Nenhum registro de frequência. Clique em “＋ Registrar data”.</div>';return}
+ state.attendance.forEach(r=>{r.members ||= {}; state.members.forEach(m=>{if(r.members[m.id]===undefined)r.members[m.id]='Ausente';});});
+ w.innerHTML=`<div class="attendance-table"><table><thead><tr><th>Data</th>${state.members.map(m=>`<th>${esc(m.name||'Integrante')}</th>`).join('')}<th></th></tr></thead><tbody>${state.attendance.map((r,i)=>`<tr>
+ <td><input type="date" value="${esc(r.date)}" onchange="state.attendance[${i}].date=this.value;queueSave()"></td>
+ ${state.members.map(m=>`<td><select class="attendance-status" onchange="state.attendance[${i}].members['${m.id}']=this.value;queueSave()"><option ${r.members[m.id]==='Presente'?'selected':''}>Presente</option><option ${r.members[m.id]==='Ausente'?'selected':''}>Ausente</option><option ${r.members[m.id]==='Justificado'?'selected':''}>Justificado</option></select></td>`).join('')}
+ <td><button class="btn" onclick="removeAttendance(${i})">✕</button></td></tr>`).join('')}</tbody></table></div>`;
+}
+
+function addMember(){
+ if(state.members.length>=10)return toast('O limite de 10 competidores foi atingido.');
+ state.members.push({id:'m'+Date.now()+'_'+Math.random().toString(36).slice(2,7),name:'',age:'',function:'',backup:'',photo:'',characteristics:'',interests:''});
+ renderMembers();queueSave();
+}
+function removeMember(i){state.members.splice(i,1);renderMembers();queueSave()}
+function memberPhoto(i){
+ const input=document.getElementById('memberPhoto_'+i);if(input)input.click();
+}
+function handleMemberPhoto(i,input){
+ const file=input.files&&input.files[0];if(!file)return;
+ compressImage(file,900,data=>{state.members[i].photo=data;renderMembers();queueSave();input.value='';},()=>toast('Não foi possível processar essa imagem. Prefira JPG, PNG ou WEBP.'));
+}
+function removeMemberPhoto(i){state.members[i].photo='';renderMembers();queueSave()}
+function renderMembers(){
+ const w=document.getElementById('membersWrap');
+ if(!state.members.length){w.innerHTML='<div class="empty">Nenhum integrante cadastrado. Clique em “＋ Integrante”.</div>';return}
+ w.innerHTML=state.members.map((m,i)=>`<div class="card member-card-collapsible specific-collapsible" id="memberCard_${i}">
+   <button type="button" class="specific-toggle" onclick="toggleSpecificCard('memberCard_${i}')" title="Clique para mostrar ou ocultar as informações de ${esc(m.name||'integrante')}">
+    <div class="member-summary">
+      <div class="member-summary-photo">${m.photo?`<img src="${m.photo}" alt="Foto de ${esc(m.name||'integrante')}">`:'📷<br>Foto'}</div>
+      <div><div class="member-summary-name" id="memberSummaryName_${i}">${esc(m.name||'Integrante')}</div><div class="member-summary-function" id="memberSummaryFunction_${i}">${esc(m.function||'Função ainda não definida')}</div></div>
+      <span class="specific-summary-arrow" id="memberArrow_${i}">▸</span>
+    </div>
+   </button>
+   <div class="specific-content">
+    <div class="member-grid">
+      <div>
+        <div class="photo-preview image-editable" onclick="openMemberPhotoEditor(${i})" title="Clique para trocar ou ajustar a foto">${m.photo?`<img src="${m.photo}" alt="Foto de ${esc(m.name||'integrante')}">`:'📷<br>Foto'}</div>
+        <input id="memberPhoto_${i}" type="file" accept="image/jpeg,image/png,image/webp,image/*" hidden onchange="handleMemberPhoto(${i},this)">
+        <div class="photo-actions no-print">
+          <button class="btn" onclick="memberPhoto(${i})">📷 ${m.photo?'Trocar':'Adicionar'}</button>
+          ${m.photo?`<button class="btn" onclick="removeMemberPhoto(${i})">🗑️ Excluir foto</button><button class="btn" onclick="openMemberPhotoEditor(${i})">✎ Ajustar</button><button class="btn" onclick="downloadDataImage(state.members[${i}].photo,'integrante-${i+1}.jpg')">Baixar</button>`:''}
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="field"><label>Nome</label><input value="${esc(m.name)}" oninput="state.members[${i}].name=this.value;updateMemberSummary(${i})" onchange="queueSave()"></div>
+        <div class="field"><label>Idade</label><input type="number" min="1" value="${esc(m.age)}" onchange="state.members[${i}].age=this.value;queueSave()"></div>
+        <div class="field"><label>Função na equipe</label><input value="${esc(m.function)}" placeholder="Ex.: Programador/a" oninput="state.members[${i}].function=this.value;updateMemberSummary(${i})" onchange="queueSave()"></div>
+        <div class="field"><label>Função que gostaria de experimentar</label><input value="${esc(m.backup)}" onchange="state.members[${i}].backup=this.value;queueSave()"></div>
+        <div class="field full"><label>Características pessoais</label><textarea placeholder="Ex.: criativo(a), curioso(a), organizado(a), persistente..." onchange="state.members[${i}].characteristics=this.value;queueSave()">${esc(m.characteristics)}</textarea></div>
+        <div class="field full"><label>Interesses / habilidades</label><textarea placeholder="O que gosta de fazer? Em que acredita que pode contribuir?" onchange="state.members[${i}].interests=this.value;queueSave()">${esc(m.interests)}</textarea></div>
+        <div class="full"><button class="btn no-print" onclick="removeMember(${i})">🗑️ Remover integrante</button></div>
+      </div>
+    </div>
+   </div>
+  </div>`).join('');
+}
+function updateMemberSummary(i){
+ const m=state.members[i];if(!m)return;
+ const n=document.getElementById('memberSummaryName_'+i),f=document.getElementById('memberSummaryFunction_'+i);
+ if(n)n.textContent=m.name||'Integrante'; if(f)f.textContent=m.function||'Função ainda não definida';
+ queueSave();
+}
+function compressImage(file,max,cb,onError){
+ if(!file)return;
+ const reader=new FileReader();
+ reader.onload=e=>{
+  const original=e.target.result;
+  const img=new Image();
+  let finished=false;
+  const done=(data)=>{if(finished)return;finished=true;cb(data)};
+  img.onload=()=>{
+   try{
+    const target=Math.min(max||720,900);
+    const scale=Math.min(1,target/Math.max(img.naturalWidth||img.width,img.naturalHeight||img.height));
+    const w=Math.max(1,Math.round((img.naturalWidth||img.width)*scale));
+    const h=Math.max(1,Math.round((img.naturalHeight||img.height)*scale));
+    const c=document.createElement('canvas');c.width=w;c.height=h;
+    const ctx=c.getContext('2d');
+    if(!ctx)throw new Error('Canvas indisponível');
+    ctx.drawImage(img,0,0,w,h);
+    let data='';
+    try{data=c.toDataURL('image/jpeg',.72)}catch(err){data=''}
+    done(data||original);
+   }catch(err){done(original)}
+  };
+  img.onerror=()=>{
+   // Alguns celulares/iPads fornecem HEIC/HEIF; se o navegador não conseguir
+   // decodificar para canvas, mantemos o arquivo original como fallback.
+   done(original);
+   if(onError)onError(err);
+  };
+  img.src=original;
+ };
+ reader.onerror=()=>{if(onError)onError(reader.error||new Error('Não foi possível ler a imagem.'))};
+ reader.readAsDataURL(file);
+}
+function renderTeamLogo(){
+ const box=document.getElementById('teamLogoPreview');if(!box)return;
+ box.innerHTML=state.teamLogo?`<img src="${state.teamLogo}" alt="Logo da equipe">`:'🌿<br>Adicione a logo<br>ou foto da equipe';
+}
+function downloadDataImage(data,name){
+ if(!data)return toast('Nenhuma imagem disponível.');
+ const a=document.createElement('a');a.href=data;a.download=name;a.click();
+}
+function renderHomeBrand(){
+ const name=document.getElementById('homeTeamName');if(name)name.textContent=state.team.teamName||'Nossa equipe';
+ const p=document.getElementById('homeTeamPhotoPreview');if(p)p.innerHTML=state.teamPhoto?`<img src="${state.teamPhoto}" alt="Foto da equipe">`:'📷<br>Foto da equipe';
+ const l=document.getElementById('homeTeamLogoPreview');if(l)l.innerHTML=state.teamLogo?`<img src="${state.teamLogo}" alt="Logo da equipe">`:'🌱<br>Logo da equipe';
+}
+const homePhotoInput=document.getElementById('homeTeamPhotoInput');
+if(homePhotoInput)homePhotoInput.addEventListener('change',e=>{
+ const f=e.target.files&&e.target.files[0];if(!f)return;
+ compressImage(f,1200,data=>{
+   state.teamPhoto=data;renderHomeBrand();
+   const ok=storageSet(JSON.stringify(state));
+   toast(ok?'Foto da equipe carregada.':'Foto carregada; o navegador não permitiu salvar o arquivo permanentemente.');
+   e.target.value='';
+ },()=>toast('Não foi possível processar essa foto. Prefira JPG, PNG ou WEBP.'));
+});
+
+function downloadTeamLogo(){if(!state.teamLogo)return toast('Adicione primeiro uma imagem da equipe.');downloadDataImage(state.teamLogo,'logo-equipe-robostars.jpg')}
+function clearTeamLogo(){state.teamLogo='';renderTeamLogo();renderTeamAbout();renderHomeBrand();queueSave();toast('Foto/logo da equipe excluída.')}
+function clearHomeTeamPhoto(){state.teamPhoto='';renderHomeBrand();queueSave();toast('Foto da equipe excluída.')}
+const logoInput=document.getElementById('teamLogoInput');
+if(logoInput) logoInput.addEventListener('change',e=>{
+ const f=e.target.files&&e.target.files[0];if(!f)return;
+ compressImage(f,1200,data=>{
+   state.teamLogo=data;renderTeamLogo();
+   const ok=storageSet(JSON.stringify(state));
+   toast(ok?'Logo carregada.':'Logo carregada; o navegador não permitiu salvar o arquivo permanentemente.');
+   e.target.value='';
+ },()=>toast('Não foi possível processar essa imagem. Prefira JPG, PNG ou WEBP.'));
+});
+
+function addResearch(){state.research.push({source:'',type:'',finding:'',use:''});renderResearch();queueSave()}
+function removeResearch(i){state.research.splice(i,1);renderResearch();queueSave()}
+function renderResearch(){
+ const w=document.getElementById('researchWrap'); if(!state.research.length){w.innerHTML='<div class="empty">Registre fontes confiáveis e o que a equipe aprendeu com cada uma.</div>';return}
+ w.innerHTML=`<table><thead><tr><th>Fonte</th><th>Tipo</th><th>O que descobrimos?</th><th>Como influencia a solução?</th><th></th></tr></thead><tbody>${state.research.map((r,i)=>`<tr>
+ <td><input value="${esc(r.source)}" onchange="state.research[${i}].source=this.value;queueSave()"></td><td><input value="${esc(r.type)}" placeholder="site, entrevista, artigo..." onchange="state.research[${i}].type=this.value;queueSave()"></td><td><input value="${esc(r.finding)}" onchange="state.research[${i}].finding=this.value;queueSave()"></td><td><input value="${esc(r.use)}" onchange="state.research[${i}].use=this.value;queueSave()"></td><td><button class="btn" onclick="removeResearch(${i})">✕</button></td></tr>`).join('')}</tbody></table>`;
+}
+function addFeedback(){state.feedback.push({person:'',feedback:'',decision:'',change:''});renderFeedback();queueSave()}
+function removeFeedback(i){state.feedback.splice(i,1);renderFeedback();queueSave()}
+function renderFeedback(){
+ const w=document.getElementById('feedbackWrap'); if(!state.feedback.length){w.innerHTML='<div class="empty">Registre com quem a solução foi compartilhada, o feedback recebido e o que mudou.</div>';return}
+ w.innerHTML=`<table><thead><tr><th>Pessoa/grupo</th><th>Feedback</th><th>Decisão</th><th>Mudança realizada</th><th></th></tr></thead><tbody>${state.feedback.map((r,i)=>`<tr>
+ <td><input value="${esc(r.person)}" onchange="state.feedback[${i}].person=this.value;queueSave()"></td><td><input value="${esc(r.feedback)}" onchange="state.feedback[${i}].feedback=this.value;queueSave()"></td><td><input value="${esc(r.decision)}" onchange="state.feedback[${i}].decision=this.value;queueSave()"></td><td><input value="${esc(r.change)}" onchange="state.feedback[${i}].change=this.value;queueSave()"></td><td><button class="btn" onclick="removeFeedback(${i})">✕</button></td></tr>`).join('')}</tbody></table>`;
+}
+
+function addRobotTest(){state.robotTests.push({date:'',mission:'',version:'',result:'',problem:'',change:'',reliability:'50'});renderRobotTests();queueSave()}
+function removeRobotTest(i){state.robotTests.splice(i,1);renderRobotTests();queueSave()}
+function renderRobotTests(){
+ const w=document.getElementById('robotTestsWrap'); if(!state.robotTests.length){w.innerHTML='<div class="empty">Nenhum teste registrado. Crie registros de “teste → resultado → mudança → novo resultado”.</div>';return}
+ w.innerHTML=`<table><thead><tr><th>Data</th><th>Missão</th><th>Versão</th><th>Resultado</th><th>Problema</th><th>Mudança</th><th>Confiabilidade</th><th></th></tr></thead><tbody>${state.robotTests.map((r,i)=>`<tr>
+ <td><input type="date" value="${esc(r.date)}" onchange="state.robotTests[${i}].date=this.value;queueSave()"></td>
+ <td><select onchange="state.robotTests[${i}].mission=this.value;queueSave()"><option value="">Selecione</option>${missionNames.map(x=>`<option ${r.mission===x?'selected':''}>${x}</option>`).join('')}</select></td>
+ <td><input value="${esc(r.version)}" placeholder="V1" onchange="state.robotTests[${i}].version=this.value;queueSave()"></td>
+ <td><input value="${esc(r.result)}" onchange="state.robotTests[${i}].result=this.value;queueSave()"></td>
+ <td><input value="${esc(r.problem)}" onchange="state.robotTests[${i}].problem=this.value;queueSave()"></td>
+ <td><input value="${esc(r.change)}" onchange="state.robotTests[${i}].change=this.value;queueSave()"></td>
+ <td><input type="number" min="0" max="100" value="${esc(r.reliability)}" onchange="state.robotTests[${i}].reliability=this.value;queueSave()"></td>
+ <td><button class="btn" onclick="removeRobotTest(${i})">✕</button></td></tr>`).join('')}</tbody></table>`;
+}
+
+function addBuildStep(){
+ state.buildSteps.push({title:'',description:'',date:'',photo:'',learning:''});renderBuildSteps();queueSave();
+}
+function removeBuildStep(i){state.buildSteps.splice(i,1);renderBuildSteps();queueSave()}
+function buildPhoto(i){document.getElementById('buildPhoto_'+i).click()}
+function handleBuildPhoto(i,input){const f=input.files&&input.files[0];if(!f)return;compressImage(f,1000,data=>{state.buildSteps[i].photo=data;renderBuildSteps();queueSave();input.value=''},()=>toast('Não foi possível processar essa imagem. Prefira JPG, PNG ou WEBP.'))}
+function renderBuildSteps(){
+ const w=document.getElementById('buildStepsWrap');if(!w)return;
+ if(!state.buildSteps.length){w.innerHTML='<div class="empty">Adicione a primeira etapa: base, sensores, estrutura, anexos, ajustes...</div>';return}
+ w.innerHTML=state.buildSteps.map((r,i)=>`<div class="build-step specific-collapsible" id="buildStepCard_${i}">
+   <button type="button" class="specific-toggle" onclick="toggleSpecificCard('buildStepCard_${i}')" title="Clique para mostrar ou ocultar os detalhes da etapa">
+    <div class="build-summary"><div class="build-num">${i+1}</div><div><div class="build-summary-title" id="buildSummaryTitle_${i}">${esc(r.title||'Etapa de montagem')}</div><div class="build-summary-date" id="buildSummaryDate_${i}">${esc(r.date||'Data não informada')}</div></div>${r.photo?`<img class="build-summary-photo" src="${r.photo}" alt="Foto da etapa">`:'<span class="build-summary-photo-empty">📷</span>'}<span class="specific-summary-arrow" id="buildArrow_${i}">▸</span></div>
+   </button>
+   <div class="specific-content">
+    <div class="form-grid">
+     <div class="field"><label>Nome da etapa</label><input value="${esc(r.title)}" oninput="state.buildSteps[${i}].title=this.value;updateBuildSummary(${i})" onchange="queueSave()"></div>
+     <div class="field"><label>Data</label><input type="date" value="${esc(r.date)}" onchange="state.buildSteps[${i}].date=this.value;updateBuildSummary(${i});queueSave()"></div>
+     <div class="field full"><label>O que foi construído e por quê?</label><textarea onchange="state.buildSteps[${i}].description=this.value;queueSave()">${esc(r.description)}</textarea></div>
+     <div class="field full"><label>O que aprendemos / o que precisa mudar?</label><textarea onchange="state.buildSteps[${i}].learning=this.value;queueSave()">${esc(r.learning)}</textarea></div>
+    </div>
+    <input id="buildPhoto_${i}" type="file" accept="image/jpeg,image/png,image/webp,image/*" hidden onchange="handleBuildPhoto(${i},this)">
+    <div class="photo-actions no-print"><button class="btn" onclick="buildPhoto(${i})">📷 ${r.photo?'Trocar foto':'Adicionar foto'}</button>${r.photo?`<button class="btn" onclick="openImageEditor('buildPhoto',${i},state.buildSteps[${i}].photo,false)">✎ Ajustar</button><button class="btn" onclick="removeBuildPhoto(${i})">🗑️ Excluir foto</button><button class="btn" onclick="downloadDataImage(state.buildSteps[${i}].photo,'montagem-${i+1}.jpg')">⬇️ Baixar</button>`:''}</div>
+    ${r.photo?`<div class="image-editable" onclick="openImageEditor('buildPhoto',${i},state.buildSteps[${i}].photo,false)" style="margin-top:8px"><img src="${r.photo}" style="max-width:240px;border-radius:12px;border:1px solid var(--line)"></div>`:''}
+   </div>
+   <button class="btn no-print" style="margin-top:10px" onclick="removeBuildStep(${i})">✕ Remover etapa</button>
+ </div>`).join('');
+}
+function updateBuildSummary(i){const r=state.buildSteps[i];if(!r)return;const t=document.getElementById('buildSummaryTitle_'+i),d=document.getElementById('buildSummaryDate_'+i);if(t)t.textContent=r.title||'Etapa de montagem';if(d)d.textContent=r.date||'Data não informada';queueSave()}
+function removeBuildPhoto(i){if(!state.buildSteps[i])return;state.buildSteps[i].photo='';renderBuildSteps();queueSave();toast('Foto da etapa excluída.')}
+
+function addRobotAttachment(){state.robotAttachments.push({name:'',purpose:'',version:'',date:'',test:'',photo:''});renderRobotAttachments();queueSave()}
+function removeRobotAttachment(i){state.robotAttachments.splice(i,1);renderRobotAttachments();queueSave()}
+function attachmentPhoto(i){document.getElementById('attachmentPhoto_'+i).click()}
+function handleAttachmentPhoto(i,input){const f=input.files&&input.files[0];if(!f)return;compressImage(f,900,data=>{state.robotAttachments[i].photo=data;renderRobotAttachments();queueSave();input.value=''},()=>toast('Não foi possível processar essa imagem. Prefira JPG, PNG ou WEBP.'))}
+function renderRobotAttachments(){
+ const w=document.getElementById('robotAttachmentsWrap');if(!w)return;
+ if(!state.robotAttachments.length){w.innerHTML='<div class="empty">Nenhum anexo cadastrado.</div>';return}
+ w.innerHTML=state.robotAttachments.map((r,i)=>`<div class="card attachment-card specific-collapsible" id="attachmentCard_${i}">
+   <button type="button" class="specific-toggle" onclick="toggleSpecificCard('attachmentCard_${i}')" title="Clique para mostrar ou ocultar os detalhes do anexo">
+    <div class="attachment-summary"><div><div class="attachment-summary-name" id="attachmentSummaryName_${i}">${esc(r.name||'Anexo do robô')}</div><div class="attachment-summary-date" id="attachmentSummaryDate_${i}">${esc(r.date||'Data não informada')}</div></div>${r.photo?`<img class="attachment-summary-photo" src="${r.photo}" alt="Foto do anexo">`:'<span class="attachment-summary-photo-empty">📷</span>'}<span class="specific-summary-arrow" id="attachmentArrow_${i}">▸</span></div>
+   </button>
+   <div class="specific-content">
+    <div class="form-grid">
+      <div class="field"><label>Anexo</label><input value="${esc(r.name)}" oninput="state.robotAttachments[${i}].name=this.value;updateAttachmentSummary(${i})" onchange="queueSave()"></div>
+      <div class="field"><label>Finalidade</label><input value="${esc(r.purpose)}" onchange="state.robotAttachments[${i}].purpose=this.value;queueSave()"></div>
+      <div class="field"><label>Versão</label><input value="${esc(r.version)}" onchange="state.robotAttachments[${i}].version=this.value;queueSave()"></div>
+      <div class="field"><label>Data</label><input type="date" value="${esc(r.date)}" onchange="state.robotAttachments[${i}].date=this.value;updateAttachmentSummary(${i});queueSave()"></div>
+      <div class="field full"><label>Teste / resultado</label><textarea onchange="state.robotAttachments[${i}].test=this.value;queueSave()">${esc(r.test)}</textarea></div>
+    </div>
+    <input id="attachmentPhoto_${i}" type="file" accept="image/jpeg,image/png,image/webp,image/*" hidden onchange="handleAttachmentPhoto(${i},this)">
+    <div class="photo-actions no-print"><button class="btn" onclick="attachmentPhoto(${i})">📷 ${r.photo?'Trocar foto':'Adicionar foto'}</button>${r.photo?`<button class="btn" onclick="openAttachmentPhotoEditor(${i})">✎ Ajustar</button><button class="btn" onclick="removeAttachmentPhoto(${i})">🗑️ Excluir foto</button><button class="btn" onclick="downloadDataImage(state.robotAttachments[${i}].photo,'anexo-${i+1}.jpg')">⬇️ Baixar</button>`:''}</div>
+    ${r.photo?`<div class="image-editable" onclick="openAttachmentPhotoEditor(${i})" style="margin-top:8px"><img src="${r.photo}" style="max-width:240px;border-radius:12px;border:1px solid var(--line)" alt="Foto do anexo"></div>`:''}
+    <button class="btn no-print" style="margin-top:10px" onclick="removeRobotAttachment(${i})">✕ Remover anexo</button>
+   </div>
+ </div>`).join('');
+}
+function updateAttachmentSummary(i){const r=state.robotAttachments[i];if(!r)return;const n=document.getElementById('attachmentSummaryName_'+i),d=document.getElementById('attachmentSummaryDate_'+i);if(n)n.textContent=r.name||'Anexo do robô';if(d)d.textContent=r.date||'Data não informada';queueSave()}
+
+function renderMissions(){
+ if(!state.missions.length) state.missions=missionNames.map((name)=>({name,selected:false,possible:'',achieved:'',runs:'0',difficulty:'Média',proximity:'Média',success:'0',notes:''}));
+ // migrate old records
+ state.missions.forEach(m=>{m.possible??='';m.achieved??=m.points??'';m.difficulty??='Média';m.proximity??='Média';m.success??='0'});
+ const w=document.getElementById('missionsWrap');
+ w.innerHTML=state.missions.map((m,i)=>`<div class="mission">
+ <div class="mission-top"><h4>${i+1}. ${m.name}</h4><label class="tag ${m.selected?'green':''}"><input type="checkbox" ${m.selected?'checked':''} onchange="state.missions[${i}].selected=this.checked;renderMissions();queueSave()"> ${m.selected?'na estratégia':'não selecionada'}</label></div>
+ <small>Confira detalhes e pontuação vigentes no Livro de Regras/atualizações oficiais.</small>
+ <div class="mission-grid">
+  <div><label class="small muted">Pontuação da missão</label><input class="mini-input" value="${esc(m.possible)}" placeholder="Possível" onchange="state.missions[${i}].possible=this.value;queueSave()"></div>
+  <div><label class="small muted">Pontuação atingida</label><input class="mini-input" value="${esc(m.achieved)}" placeholder="Atingida" onchange="state.missions[${i}].achieved=this.value;queueSave()"></div>
+  <div><label class="small muted">Tentativas</label><input class="mini-input" type="number" min="0" value="${esc(m.runs)}" onchange="state.missions[${i}].runs=this.value;queueSave()"></div>
+ </div>
+ <div class="mission-grid">
+  <div><label class="small muted">Nível de dificuldade</label><select class="mini-input" onchange="state.missions[${i}].difficulty=this.value;queueSave()"><option ${m.difficulty==='Fácil'?'selected':''}>Fácil</option><option ${m.difficulty==='Média'?'selected':''}>Média</option><option ${m.difficulty==='Difícil'?'selected':''}>Difícil</option></select></div>
+  <div><label class="small muted">Proximidade</label><select class="mini-input" onchange="state.missions[${i}].proximity=this.value;queueSave()"><option ${m.proximity==='Baixa'?'selected':''}>Baixa</option><option ${m.proximity==='Média'?'selected':''}>Média</option><option ${m.proximity==='Alta'?'selected':''}>Alta</option></select></div>
+  <div><label class="small muted">Sucessos</label><input class="mini-input" type="number" min="0" value="${esc(m.success)}" onchange="state.missions[${i}].success=this.value;queueSave()"></div>
+ </div>
+ <div><label class="small muted">Observações</label><input class="mini-input" value="${esc(m.notes)}" onchange="state.missions[${i}].notes=this.value;queueSave()"></div>
+ </div>`).join('');
+}
+
+function addMatch(){state.matches.push({date:'',score:'',missions:'',notes:''});renderMatches();queueSave()}
+function removeMatch(i){state.matches.splice(i,1);renderMatches();queueSave()}
+function renderMatches(){
+ const w=document.getElementById('matchesWrap');if(!state.matches.length){w.innerHTML='<div class="empty">Nenhuma partida de treino registrada.</div>';return}
+ const best=Math.max(...state.matches.map(m=>Number(m.score)||0));
+ w.innerHTML=`<table><thead><tr><th>Data</th><th>Pontuação</th><th>Missões realizadas</th><th>Observações</th><th></th></tr></thead><tbody>${state.matches.map((m,i)=>`<tr>
+ <td><input type="date" value="${esc(m.date)}" onchange="state.matches[${i}].date=this.value;queueSave()"></td>
+ <td><input type="number" value="${esc(m.score)}" onchange="state.matches[${i}].score=this.value;renderMatches();queueSave()">${Number(m.score)===best&&Number(m.score)>0?'<span class="tag green">melhor</span>':''}</td>
+ <td><input value="${esc(m.missions)}" onchange="state.matches[${i}].missions=this.value;queueSave()"></td>
+ <td><input value="${esc(m.notes)}" onchange="state.matches[${i}].notes=this.value;queueSave()"></td>
+ <td><button class="btn" onclick="removeMatch(${i})">✕</button></td></tr>`).join('')}</tbody></table>`;
+}
+
+function addErrorCheck(){state.errorChecks.push({date:'',mission:'',attempt:'',error:'',cause:'',action:'',result:''});renderErrorChecks();queueSave()}
+function removeErrorCheck(i){state.errorChecks.splice(i,1);renderErrorChecks();queueSave()}
+function renderErrorChecks(){
+ const w=document.getElementById('errorChecksWrap');if(!w)return;
+ if(!state.errorChecks.length){w.innerHTML='<div class="empty">Depois de cada treino, registre pelo menos um acerto e/ou erro para orientar a próxima iteração.</div>';return}
+ w.innerHTML=`${state.errorChecks.map((r,i)=>`<div class="error-check">
+  <input type="date" value="${esc(r.date)}" onchange="state.errorChecks[${i}].date=this.value;queueSave()">
+  <select onchange="state.errorChecks[${i}].mission=this.value;queueSave()"><option value="">Missão</option>${missionNames.map(x=>`<option ${r.mission===x?'selected':''}>${x}</option>`).join('')}</select>
+  <input value="${esc(r.attempt)}" placeholder="Tentativa / saída" onchange="state.errorChecks[${i}].attempt=this.value;queueSave()">
+  <input value="${esc(r.error)}" placeholder="Erro ou acerto observado" onchange="state.errorChecks[${i}].error=this.value;queueSave()">
+  <button class="btn" onclick="removeErrorCheck(${i})">✕</button>
+  <input value="${esc(r.cause)}" placeholder="Possível causa" onchange="state.errorChecks[${i}].cause=this.value;queueSave()">
+  <input value="${esc(r.action)}" placeholder="Ação corretiva" onchange="state.errorChecks[${i}].action=this.value;queueSave()">
+  <input value="${esc(r.result)}" placeholder="Resultado após ajuste" onchange="state.errorChecks[${i}].result=this.value;queueSave()">
+ </div>`).join('')}`;
+}
+
+function renderCore(){
+ document.getElementById('coreWrap').innerHTML=coreValues.map((c,i)=>`<div class="core"><div class="emoji">${c[0]}</div><h4>${c[1]}</h4><p>${c[2]}</p><div class="field" style="margin-top:10px"><label>Exemplo vivido pela equipe</label><textarea id="core${i}" data-bind placeholder="Situação observável..."></textarea></div></div>`).join('');
+ bindInputs();
+}
+function addCoreEvidence(){state.coreEvidence.push({date:'',value:'',situation:'',people:'',learning:''});renderCoreEvidence();queueSave()}
+function removeCoreEvidence(i){state.coreEvidence.splice(i,1);renderCoreEvidence();queueSave()}
+function renderCoreEvidence(){
+ const w=document.getElementById('coreEvidenceWrap');if(!w)return;if(!state.coreEvidence.length){w.innerHTML='<div class="empty">Registre situações concretas que demonstrem os valores.</div>';return}
+ w.innerHTML=state.coreEvidence.map((r,i)=>`<div class="evidence-entry specific-collapsible" id="coreEvidenceCard_${i}">
+  <button type="button" class="specific-toggle" onclick="toggleSpecificCard('coreEvidenceCard_${i}')" title="Clique para mostrar ou ocultar a evidência">
+   <div class="specific-summary"><div class="specific-summary-main"><div class="specific-summary-title">${esc(r.date||'Data não informada')}</div><div class="specific-summary-meta">${esc(r.value||'Core Value não informado')}</div></div><span class="specific-summary-arrow">▸</span></div>
+  </button>
+  <div class="specific-content">
+   <div class="form-grid">
+    <div class="field"><label>Data</label><input type="date" value="${esc(r.date)}" onchange="state.coreEvidence[${i}].date=this.value;updateCoreEvidenceSummary(${i});queueSave()"></div>
+    <div class="field"><label>Core Value</label><select onchange="state.coreEvidence[${i}].value=this.value;updateCoreEvidenceSummary(${i});queueSave()"><option value="">Selecione</option>${coreValues.map(c=>`<option ${r.value===c[1]?'selected':''}>${c[1]}</option>`).join('')}</select></div>
+    <div class="field full"><label>Situação</label><input value="${esc(r.situation)}" onchange="state.coreEvidence[${i}].situation=this.value;queueSave()"></div>
+    <div class="field"><label>Quem participou?</label><input value="${esc(r.people)}" onchange="state.coreEvidence[${i}].people=this.value;queueSave()"></div>
+    <div class="field"><label>O que aprendemos?</label><input value="${esc(r.learning)}" onchange="state.coreEvidence[${i}].learning=this.value;queueSave()"></div>
+   </div>
+   <button class="btn no-print" onclick="removeCoreEvidence(${i})">🗑️ Remover evidência</button>
+  </div>
+ </div>`).join('');
+ restoreSpecificCollapsed();
+}
+function updateCoreEvidenceSummary(i){
+ const card=document.getElementById('coreEvidenceCard_'+i);if(!card)return;
+ const title=card.querySelector('.specific-summary-title');const meta=card.querySelector('.specific-summary-meta');const r=state.coreEvidence[i];
+ if(title)title.textContent=r.date||'Data não informada';if(meta)meta.textContent=r.value||'Core Value não informado';
+}
+
+function addCoreDiary(){state.coreDiary.push({date:'',responsible:'',value:'',members:'',behavior:'',next:''});renderCoreDiary();queueSave()}
+function removeCoreDiary(i){state.coreDiary.splice(i,1);renderCoreDiary();queueSave()}
+function renderCoreDiary(){
+ const w=document.getElementById('coreDiaryWrap');if(!w)return;
+ if(!state.coreDiary.length){w.innerHTML='<div class="empty">Crie o primeiro registro para acompanhar os encontros e experiências da equipe.</div>';return}
+ w.innerHTML=state.coreDiary.map((r,i)=>`<div class="diary-entry specific-collapsible" id="coreDiaryCard_${i}">
+  <button type="button" class="specific-toggle" onclick="toggleSpecificCard('coreDiaryCard_${i}')" title="Clique para mostrar ou ocultar o diário">
+   <div class="specific-summary"><div class="specific-summary-main"><div class="specific-summary-title">${esc(r.date||'Data não informada')}</div><div class="specific-summary-meta">Registro do encontro</div></div><span class="specific-summary-arrow">▸</span></div>
+  </button>
+  <div class="specific-content">
+   <div class="diary-head">
+    <input type="date" value="${esc(r.date)}" onchange="state.coreDiary[${i}].date=this.value;updateCoreDiarySummary(${i});queueSave()">
+    <input value="${esc(r.responsible)}" placeholder="Responsável pelo registro" onchange="state.coreDiary[${i}].responsible=this.value;queueSave()">
+    <select onchange="state.coreDiary[${i}].value=this.value;queueSave()"><option value="">Valor trabalhado</option>${coreValues.map(c=>`<option ${r.value===c[1]?'selected':''}>${c[1]}</option>`).join('')}</select>
+   </div>
+   <div class="form-grid">
+    <div class="field"><label>Integrantes observados</label><input value="${esc(r.members)}" onchange="state.coreDiary[${i}].members=this.value;queueSave()"></div>
+    <div class="field"><label>Comportamento observado</label><textarea onchange="state.coreDiary[${i}].behavior=this.value;queueSave()">${esc(r.behavior)}</textarea></div>
+    <div class="field full"><label>O que vamos trabalhar no próximo treino?</label><textarea onchange="state.coreDiary[${i}].next=this.value;queueSave()">${esc(r.next)}</textarea></div>
+   </div>
+   <button class="btn no-print" onclick="removeCoreDiary(${i})">🗑️ Remover registro</button>
+  </div>
+ </div>`).join('');
+ restoreSpecificCollapsed();
+}
+function updateCoreDiarySummary(i){
+ const card=document.getElementById('coreDiaryCard_'+i);if(!card)return;const title=card.querySelector('.specific-summary-title');const r=state.coreDiary[i];if(title)title.textContent=r.date||'Data não informada';
+}
+
+const evaluationQuestions=[
+ {c:'Projeto de Inovação',d:'Fácil',q:'Qual problema a equipe escolheu e por que ele é importante para a biodiversidade?'},
+ {c:'Projeto de Inovação',d:'Fácil',q:'Como vocês descobriram mais sobre o problema?'},
+ {c:'Projeto de Inovação',d:'Fácil',q:'Qual é a solução de vocês e para quem ela foi pensada?'},
+ {c:'Projeto de Inovação',d:'Médio',q:'Quais pesquisas mudaram a forma como vocês pensaram a solução?'},
+ {c:'Projeto de Inovação',d:'Médio',q:'Que feedback vocês receberam e o que realmente mudou depois dele?'},
+ {c:'Projeto de Inovação',d:'Médio',q:'Como vocês sabem que a solução responde ao problema identificado?'},
+ {c:'Projeto de Inovação',d:'Difícil',q:'Qual foi uma decisão do projeto que vocês mudaram depois de uma evidência? Explique o antes e o depois.'},
+ {c:'Projeto de Inovação',d:'Difícil',q:'Como vocês demonstrariam o impacto potencial da solução sem exagerar o que ela pode fazer?'},
+ {c:'Projeto de Inovação',d:'Difícil',q:'Se tivessem mais tempo e recursos, qual seria a próxima iteração da solução e por quê?'},
+ {c:'Design do Robô',d:'Fácil',q:'Como vocês decidiram quais missões realizar?'},
+ {c:'Design do Robô',d:'Fácil',q:'Como funciona a base de condução do robô?'},
+ {c:'Design do Robô',d:'Fácil',q:'Quais sensores e motores são mais importantes para a estratégia de vocês?'},
+ {c:'Design do Robô',d:'Médio',q:'Qual acessório vocês modificaram e por que essa mudança ajudou?'},
+ {c:'Design do Robô',d:'Médio',q:'Como vocês testaram se uma alteração realmente melhorou o robô?'},
+ {c:'Design do Robô',d:'Médio',q:'Como o código e a construção do robô trabalham juntos para realizar as missões?'},
+ {c:'Design do Robô',d:'Difícil',q:'Conte uma falha importante do robô e explique como a equipe identificou a causa e decidiu a correção.'},
+ {c:'Design do Robô',d:'Difícil',q:'Que evidência mostra que o robô está mais confiável hoje do que nas primeiras versões?'},
+ {c:'Design do Robô',d:'Difícil',q:'Se uma missão começasse a falhar no torneio, qual seria a decisão técnica de vocês e por quê?'},
+ {c:'Desafio do Robô',d:'Fácil',q:'Qual missão vocês consideram mais segura e por quê?'},
+ {c:'Desafio do Robô',d:'Fácil',q:'Como vocês controlam o tempo da partida?'},
+ {c:'Desafio do Robô',d:'Fácil',q:'Quantas tentativas vocês fizeram em uma das missões principais?'},
+ {c:'Desafio do Robô',d:'Médio',q:'Como vocês decidiram a ordem das missões?'},
+ {c:'Desafio do Robô',d:'Médio',q:'Qual erro aparece com mais frequência e o que vocês fizeram para reduzi-lo?'},
+ {c:'Desafio do Robô',d:'Médio',q:'Como vocês avaliam a proximidade e a confiabilidade de uma missão antes de incluí-la na estratégia?'},
+ {c:'Desafio do Robô',d:'Difícil',q:'Como vocês equilibrariam pontuação potencial e risco de falha durante uma partida?'},
+ {c:'Desafio do Robô',d:'Difícil',q:'Se o robô falhar em uma saída importante, como o plano B muda a estratégia?'},
+ {c:'Desafio do Robô',d:'Difícil',q:'Qual dado de treino mais influenciou uma decisão estratégica da equipe?'},
+ {c:'Core Values',d:'Fácil',q:'Como a equipe demonstrou Trabalho em Equipe neste treino?'},
+ {c:'Core Values',d:'Fácil',q:'O que vocês descobriram de novo trabalhando juntos?'},
+ {c:'Core Values',d:'Fácil',q:'Como todos tiveram oportunidade de participar?'},
+ {c:'Core Values',d:'Médio',q:'Conte uma situação em que uma diferença de opinião ajudou a equipe a encontrar uma solução melhor.'},
+ {c:'Core Values',d:'Médio',q:'Como vocês demonstraram Inovação quando alguma coisa não funcionou?'},
+ {c:'Core Values',d:'Médio',q:'Qual comportamento de um colega você reconhece como um exemplo de Impacto ou Inclusão?'},
+ {c:'Core Values',d:'Difícil',q:'Como vocês resolvem conflitos sem deixar que um integrante seja excluído das decisões?'},
+ {c:'Core Values',d:'Difícil',q:'Qual situação real mostra que os Core Values influenciaram uma decisão técnica ou de projeto?'},
+ {c:'Core Values',d:'Difícil',q:'Como a equipe pode demonstrar diversão e profissionalismo ao mesmo tempo durante a avaliação?'}
+];
+function drawQuestion(){
+ const cat=document.getElementById('questionCategory').value;
+ const diff=document.getElementById('questionDifficulty').value;
+ let pool=evaluationQuestions.filter(x=>(cat==='Todas'||x.c===cat)&&(diff==='Aleatória'||x.d===diff));
+ if(!pool.length)return toast('Não há perguntas para essa combinação.');
+ const q=pool[Math.floor(Math.random()*pool.length)];
+ document.getElementById('questionCard').innerHTML=`<div class="q">${esc(q.q)}</div><div class="question-meta"><span class="tag blue">${esc(q.c)}</span><span class="tag ${q.d==='Fácil'?'green':q.d==='Médio'?'yellow':'red'}">${esc(q.d)}</span></div><div class="small muted">Dica: responda com exemplos, evidências e decisões reais da equipe.</div>`;
+}
+let timer30Seconds=1800,timer30Int=null;
+function updateTimer30(){const m=Math.floor(timer30Seconds/60),s=timer30Seconds%60;const el=document.getElementById('timer30');if(el)el.textContent=`${m}:${String(s).padStart(2,'0')}`}
+function startTimer30(){if(timer30Int)return;document.getElementById('timer30State').textContent='Simulação em andamento';timer30Int=setInterval(()=>{if(timer30Seconds<=0){clearInterval(timer30Int);timer30Int=null;document.getElementById('timer30State').textContent='Tempo encerrado!';return}timer30Seconds--;updateTimer30()},1000)}
+function pauseTimer30(){clearInterval(timer30Int);timer30Int=null;document.getElementById('timer30State').textContent='Simulação pausada'}
+function resetTimer30(){pauseTimer30();timer30Seconds=1800;updateTimer30();document.getElementById('timer30State').textContent='Pronto para começar'}
+
+function addRehearsal(){state.rehearsals.push({date:'',area:'Projeto de Inovação',time:'',feedback:'',next:''});renderRehearsals();queueSave()}
+function removeRehearsal(i){state.rehearsals.splice(i,1);renderRehearsals();queueSave()}
+function renderRehearsals(){
+ const w=document.getElementById('rehearsalWrap');if(!state.rehearsals.length){w.innerHTML='<div class="empty">Nenhum ensaio registrado.</div>';return}
+ w.innerHTML=`<table><thead><tr><th>Data</th><th>Área</th><th>Duração</th><th>Feedback</th><th>Próximo ajuste</th><th></th></tr></thead><tbody>${state.rehearsals.map((r,i)=>`<tr>
+ <td><input type="date" value="${esc(r.date)}" onchange="state.rehearsals[${i}].date=this.value;queueSave()"></td>
+ <td><select onchange="state.rehearsals[${i}].area=this.value;queueSave()"><option>Projeto de Inovação</option><option>Design do Robô</option><option>Perguntas e respostas</option><option>Desafio do Robô</option></select></td>
+ <td><input value="${esc(r.time)}" placeholder="5:00" onchange="state.rehearsals[${i}].time=this.value;queueSave()"></td>
+ <td><input value="${esc(r.feedback)}" onchange="state.rehearsals[${i}].feedback=this.value;queueSave()"></td><td><input value="${esc(r.next)}" onchange="state.rehearsals[${i}].next=this.value;queueSave()"></td>
+ <td><button class="btn" onclick="removeRehearsal(${i})">✕</button></td></tr>`).join('')}</tbody></table>`;
+}
+function addQuestion(){state.questions.push({q:'',answer:'',owner:''});renderQuestions();queueSave()}
+function removeQuestion(i){state.questions.splice(i,1);renderQuestions();queueSave()}
+function renderQuestions(){
+ const w=document.getElementById('questionsWrap');if(!state.questions.length){w.innerHTML='<div class="empty">Adicione perguntas que exigem respostas baseadas em evidências.</div>';return}
+ w.innerHTML=`<table><thead><tr><th>Pergunta</th><th>Resposta curta</th><th>Quem responde?</th><th></th></tr></thead><tbody>${state.questions.map((r,i)=>`<tr><td><input value="${esc(r.q)}" onchange="state.questions[${i}].q=this.value;queueSave()"></td><td><input value="${esc(r.answer)}" onchange="state.questions[${i}].answer=this.value;queueSave()"></td><td><input value="${esc(r.owner)}" onchange="state.questions[${i}].owner=this.value;queueSave()"></td><td><button class="btn" onclick="removeQuestion(${i})">✕</button></td></tr>`).join('')}</tbody></table>`;
+}
+
+function addGalleryItem(){state.gallery.push({title:'',date:'',caption:'',photo:''});renderGallery();queueSave()}
+function removeGalleryItem(i){state.gallery.splice(i,1);renderGallery();queueSave()}
+function removeGalleryPhoto(i){if(!state.gallery[i])return;state.gallery[i].photo='';renderGallery();queueSave();toast('Foto da galeria excluída.')}
+function galleryPhoto(i){document.getElementById('galleryPhoto_'+i).click()}
+function handleGalleryPhoto(i,input){const f=input.files&&input.files[0];if(!f)return;compressImage(f,900,data=>{state.gallery[i].photo=data;renderGallery();queueSave();input.value=''},()=>toast('Não foi possível processar essa imagem. Prefira JPG, PNG ou WEBP.'))}
+function renderGallery(){
+ const w=document.getElementById('galleryWrap');if(!w)return;
+ if(!state.gallery.length){w.innerHTML='<div class="empty">Registre a primeira foto da temporada: treino, protótipo, visita, apresentação ou celebração.</div>';return}
+ w.innerHTML=`<div class="gallery-grid">${state.gallery.map((r,i)=>`<div class="gallery-item">
+  <div class="gallery-image image-editable" onclick="openGalleryPhotoEditor(${i})" title="Clique para trocar ou ajustar a foto">${r.photo?`<img src="${r.photo}" alt="${esc(r.title)}">`:'📷 Sem foto'}</div>
+  <div class="gallery-info">
+   <div class="edit-fields">
+    <input value="${esc(r.title)}" placeholder="Título da foto" onchange="state.gallery[${i}].title=this.value;queueSave()">
+    <input type="date" value="${esc(r.date)}" onchange="state.gallery[${i}].date=this.value;queueSave()">
+    <textarea placeholder="Legenda / contexto" onchange="state.gallery[${i}].caption=this.value;queueSave()">${esc(r.caption)}</textarea>
+   </div>
+   <div class="photo-actions no-print"><input id="galleryPhoto_${i}" type="file" accept="image/jpeg,image/png,image/webp,image/*" hidden onchange="handleGalleryPhoto(${i},this)"><button class="btn" onclick="galleryPhoto(${i})">${r.photo?'Trocar foto':'Adicionar foto'}</button>${r.photo?`<button class="btn" onclick="openGalleryPhotoEditor(${i})">✎ Ajustar</button><button class="btn" onclick="removeGalleryPhoto(${i})">🗑️ Excluir foto</button><button class="btn" onclick="downloadDataImage(state.gallery[${i}].photo,'galeria-${i+1}.jpg')">Baixar</button>`:''}<button class="btn" onclick="removeGalleryItem(${i})">✕</button></div>
+  </div>
+ </div>`).join('')}</div>`;
+}
+
+
+let imageEditorState={kind:'',index:null,source:'',img:null,isLogo:false};
+function openHomePhotoEditor(){
+  openImageEditor('teamPhoto',null,state.teamPhoto||'',false);
+}
+function openHomeLogoEditor(){
+  openImageEditor('teamLogo',null,state.teamLogo||'',true);
+}
+function openTeamAboutEditor(){
+  document.getElementById('teamAboutInput').value=state.team.about||'';
+  document.getElementById('teamAboutEditorFields').style.display='block';
+  openImageEditor('teamLogo',null,state.teamLogo||'',true);
+  document.getElementById('imageEditorTitle').textContent='Editar Sobre a equipe';
+  document.getElementById('imageEditorHint').textContent='Gerencie a imagem e escreva o texto sobre a equipe neste mesmo espaço.';
+}
+function saveTeamAboutText(){
+  state.team.about=document.getElementById('teamAboutInput').value||'';
+  renderTeamAbout(); queueSave(); toast('Texto sobre a equipe salvo.');
+}
+function renderTeamAbout(){
+  const el=document.getElementById('teamAboutSummary');if(el)el.textContent=state.team.about||'Escreva aqui um pouco sobre a equipe, sua história, seus interesses e o que a torna especial.';
+}
+
+function openMemberPhotoEditor(i){
+  if(state.members[i]?.photo) openImageEditor('memberPhoto',i,state.members[i].photo,false);
+  else memberPhoto(i);
+}
+function openGalleryPhotoEditor(i){
+  if(state.gallery[i]?.photo) openImageEditor('galleryPhoto',i,state.gallery[i].photo,false);
+  else galleryPhoto(i);
+}
+function removeAttachmentPhoto(i){if(!state.robotAttachments[i])return;state.robotAttachments[i].photo='';renderRobotAttachments();queueSave();toast('Foto do anexo excluída.')}
+function openAttachmentPhotoEditor(i){
+  if(state.robotAttachments[i]?.photo) openImageEditor('attachmentPhoto',i,state.robotAttachments[i].photo,false);
+  else attachmentPhoto(i);
+}
+function openImageEditor(kind,index,src,isLogo){
+  imageEditorState={kind,index,source:src||'',img:null,isLogo:!!isLogo};
+  const title=isLogo?'Editar logo':'Editar foto';
+  document.getElementById('imageEditorTitle').textContent=title;
+  document.getElementById('imageEditorHint').textContent=isLogo
+    ? 'Adicione, troque, ajuste, baixe ou exclua a logo usando as opções abaixo.'
+    : 'Adicione, troque, ajuste, baixe ou exclua a foto usando as opções abaixo.';
+  document.getElementById('cropZoom').value=1;
+  document.getElementById('cropX').value=0;
+  document.getElementById('cropY').value=0;
+  document.getElementById('imageEditorModal').classList.add('open');
+  updateImageEditorActions();
+  if(src){
+    const img=new Image();
+    img.onload=()=>{imageEditorState.img=img;drawCropPreview();updateImageEditorActions()};
+    img.onerror=()=>{toast('Não foi possível editar esta imagem. Escolha JPG ou PNG.');updateImageEditorActions()};
+    img.src=src;
+  }else{
+    const c=document.getElementById('cropCanvas'),ctx=c.getContext('2d');
+    ctx.clearRect(0,0,c.width,c.height);ctx.fillStyle='#eaf2ef';ctx.fillRect(0,0,c.width,c.height);
+    ctx.fillStyle='#61727a';ctx.font='700 22px system-ui';ctx.textAlign='center';ctx.fillText(isLogo?'Nenhuma logo adicionada':'Nenhuma foto adicionada',c.width/2,c.height/2);
+  }
+}
+function updateImageEditorActions(){
+  const has=!!imageEditorState.img;
+  const apply=document.getElementById('imageEditorApplyBtn');
+  const down=document.getElementById('imageEditorDownloadBtn');
+  const del=document.getElementById('imageEditorDeleteBtn');
+  if(apply)apply.disabled=!has;
+  if(down)down.disabled=!has;
+  if(del)del.disabled=!has;
+  const btn=document.getElementById('imageEditorReplaceBtn');
+  if(btn)btn.textContent=imageEditorState.img?(imageEditorState.isLogo?'🔄 Trocar logo':'🔄 Trocar foto'):(imageEditorState.isLogo?'➕ Adicionar logo':'➕ Adicionar foto');
+}
+function downloadEditedImage(){
+  const data=imageEditorState.source;
+  if(!data)return toast('Não há imagem para baixar.');
+  const name=imageEditorState.isLogo?'logo-equipe-robostars.jpg':'foto-equipe-robostars.jpg';
+  downloadDataImage(data,name);
+}
+function deleteEditedImage(){
+  const k=imageEditorState.kind,i=imageEditorState.index;
+  if(k==='teamPhoto'){clearHomeTeamPhoto();}
+  else if(k==='teamLogo'){clearTeamLogo();}
+  else if(k==='memberPhoto' && state.members[i]){removeMemberPhoto(i)}
+  else if(k==='galleryPhoto' && state.gallery[i]){removeGalleryPhoto(i)}
+  else if(k==='buildPhoto' && state.buildSteps[i]){removeBuildPhoto(i)}
+  else if(k==='attachmentPhoto' && state.robotAttachments[i]){removeAttachmentPhoto(i)}
+  closeImageEditor();
+}
+function drawCropPreview(){
+  const c=document.getElementById('cropCanvas');if(!c||!imageEditorState.img)return;
+  const ctx=c.getContext('2d');const img=imageEditorState.img;
+  const zoom=Number(document.getElementById('cropZoom').value)||1;
+  const px=Number(document.getElementById('cropX').value)||0;
+  const py=Number(document.getElementById('cropY').value)||0;
+  const W=c.width,H=c.height;
+  ctx.clearRect(0,0,W,H);ctx.fillStyle='#eaf2ef';ctx.fillRect(0,0,W,H);
+  if(imageEditorState.isLogo){
+    const scale=Math.min(W/img.naturalWidth,H/img.naturalHeight)*zoom;
+    const dw=img.naturalWidth*scale,dh=img.naturalHeight*scale;
+    const x=(W-dw)/2+px*(W-dw)/2,y=(H-dh)/2+py*(H-dh)/2;
+    ctx.drawImage(img,x,y,dw,dh);
+  }else{
+    const size=Math.min(W,H);const scale=Math.max(size/img.naturalWidth,size/img.naturalHeight)*zoom;
+    const dw=img.naturalWidth*scale,dh=img.naturalHeight*scale;
+    const x=(W-dw)/2+px*(W-dw)/2,y=(H-dh)/2+py*(H-dh)/2;
+    ctx.save();ctx.beginPath();ctx.rect((W-size)/2,(H-size)/2,size,size);ctx.clip();ctx.drawImage(img,x,y,dw,dh);ctx.restore();
+    ctx.strokeStyle='rgba(45,106,79,.8)';ctx.lineWidth=3;ctx.strokeRect((W-size)/2,(H-size)/2,size,size);
+  }
+}
+['cropZoom','cropX','cropY'].forEach(id=>document.getElementById(id)?.addEventListener('input',drawCropPreview));
+document.getElementById('replaceImageInput')?.addEventListener('change',e=>{
+  const f=e.target.files?.[0];if(!f)return;
+  const reader=new FileReader();reader.onload=ev=>{
+    imageEditorState.source=ev.target.result;
+    const img=new Image();
+    img.onload=()=>{imageEditorState.img=img;document.getElementById('cropZoom').value=1;document.getElementById('cropX').value=0;document.getElementById('cropY').value=0;drawCropPreview();updateImageEditorActions()};
+    img.onerror=()=>toast('Não foi possível carregar esta imagem.');
+    img.src=ev.target.result;
+  };
+  reader.readAsDataURL(f);e.target.value='';
+});
+function saveEditedImage(){
+  const img=imageEditorState.img;if(!img)return;
+  const out=document.createElement('canvas');
+  if(imageEditorState.isLogo){out.width=900;out.height=900}else{out.width=900;out.height=900}
+  const ctx=out.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,out.width,out.height);
+  const zoom=Number(document.getElementById('cropZoom').value)||1,px=Number(document.getElementById('cropX').value)||0,py=Number(document.getElementById('cropY').value)||0;
+  if(imageEditorState.isLogo){
+    const scale=Math.min(out.width/img.naturalWidth,out.height/img.naturalHeight)*zoom;const dw=img.naturalWidth*scale,dh=img.naturalHeight*scale;const x=(out.width-dw)/2+px*(out.width-dw)/2,y=(out.height-dh)/2+py*(out.height-dh)/2;ctx.drawImage(img,x,y,dw,dh);
+  }else{
+    const size=out.width,scale=Math.max(size/img.naturalWidth,size/img.naturalHeight)*zoom;const dw=img.naturalWidth*scale,dh=img.naturalHeight*scale;const x=(size-dw)/2+px*(size-dw)/2,y=(size-dh)/2+py*(size-dh)/2;ctx.save();ctx.beginPath();ctx.rect(0,0,size,size);ctx.clip();ctx.drawImage(img,x,y,dw,dh);ctx.restore();
+  }
+  let data='';try{data=out.toDataURL('image/jpeg',.84)}catch(e){}
+  if(!data)return toast('Não foi possível salvar o enquadramento.');
+  imageEditorState.source=data;
+  const {kind,index}=imageEditorState;
+  if(kind==='teamPhoto')state.teamPhoto=data;
+  else if(kind==='teamLogo')state.teamLogo=data;
+  else if(kind==='memberPhoto' && state.members[index])state.members[index].photo=data;
+  else if(kind==='galleryPhoto' && state.gallery[index])state.gallery[index].photo=data;
+  else if(kind==='buildPhoto' && state.buildSteps[index])state.buildSteps[index].photo=data;
+  else if(kind==='attachmentPhoto' && state.robotAttachments[index])state.robotAttachments[index].photo=data;
+  renderAll();queueSave();closeImageEditor();toast('Imagem atualizada.');
+}
+function closeImageEditor(){document.getElementById('imageEditorModal')?.classList.remove('open');imageEditorState={kind:'',index:null,source:'',img:null,isLogo:false}}
+function drawTeamMember(){
+  const valid=state.members.filter(m=>String(m.name||'').trim());
+  const box=document.getElementById('drawMemberResult');
+  if(!valid.length){box.textContent='Cadastre os integrantes na seção “Equipe” para realizar o sorteio.';return}
+  let count=0;const total=12;clearInterval(window.teamDrawTimer);
+  window.teamDrawTimer=setInterval(()=>{
+    box.textContent=valid[Math.floor(Math.random()*valid.length)].name;
+    count++;if(count>=total){clearInterval(window.teamDrawTimer);const chosen=valid[Math.floor(Math.random()*valid.length)];box.innerHTML=`🎉 <span>${esc(chosen.name)}</span><br><small style="font-size:12px;color:var(--muted)">Responsável escolhido para preencher a central</small>`;queueSave();}
+  },90);
+}
+
+const dynamics=[
+ {title:'🌱 Rede da Biodiversidade',steps:'Cada integrante diz uma coisa que aprendeu no projeto. O próximo conecta sua ideia à anterior, formando uma rede. No final, conversem sobre como cada pessoa depende das outras para o projeto funcionar.',result:'Qual conexão entre as ideias da equipe foi mais importante?'},
+ {title:'🤖 Robô sem palavras',steps:'Em duplas, um integrante explica uma montagem ou percurso sem usar palavras técnicas. O outro tenta interpretar e desenhar. Depois comparem os desenhos e conversem sobre clareza na comunicação.',result:'O que precisamos explicar melhor durante os ensaios?'},
+ {title:'💡 30 ideias em 5 minutos',steps:'Escolham um problema e façam brainstorming rápido. Toda ideia é aceita na primeira rodada. Depois agrupem, combinem e escolham duas para analisar.',result:'Qual ideia ganhou força quando combinamos propostas diferentes?'},
+ {title:'🫶 Troca de funções',steps:'Durante 15 minutos, cada integrante experimenta uma função diferente da sua. Ao final, compartilhe uma dificuldade e uma descoberta.',result:'O que aprendemos sobre o trabalho dos colegas?'},
+ {title:'🔎 Investigadores de erros',steps:'Escolham um erro real do robô. Em equipe, perguntem cinco vezes “por quê?” até chegar a uma possível causa. Depois criem um teste para verificar a hipótese.',result:'Qual hipótese vamos testar primeiro?'},
+ {title:'🎉 Celebração das pequenas vitórias',steps:'Cada integrante registra uma pequena conquista de outro colega. Leiam as mensagens e conversem sobre quais atitudes ajudaram a equipe a avançar.',result:'Que comportamento queremos repetir no próximo treino?'},
+ {title:'🌎 Solução em 1 minuto',steps:'Cada integrante tem 60 segundos para explicar o problema, a solução e o impacto do Projeto de Inovação. Os colegas anotam uma coisa clara e uma coisa que pode melhorar.',result:'Qual parte da comunicação ficou mais forte?'},
+ {title:'🤝 Coopertition',steps:'Imaginem que outra equipe precisa de ajuda com um problema. A equipe deve oferecer uma orientação sem fazer o trabalho pelo outro grupo.',result:'Como podemos competir e colaborar ao mesmo tempo?'}
+];
+function renderDynamics(){
+ const w=document.getElementById('dynamicsWrap');if(!w)return;
+ w.innerHTML=dynamics.map((d,i)=>`<div class="dynamic-card"><h4>${d.title}</h4><div class="steps">${d.steps}</div><button class="btn green" onclick="useDynamic(${i})">▶ Fazer esta dinâmica</button></div>`).join('');
+}
+function drawDynamic(){useDynamic(Math.floor(Math.random()*dynamics.length))}
+function useDynamic(i){
+ const d=dynamics[i],box=document.getElementById('dynamicResult');box.style.display='block';box.innerHTML=`<b>🎲 Dinâmica escolhida: ${d.title}</b><p class="small" style="line-height:1.5">${d.steps}</p><div class="dynamic-result"><b>Para fechar:</b> ${d.result}</div>`;
+ box.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function renderChecklist(){
+ const w=document.getElementById('eventChecklist');
+ w.innerHTML=eventItems.map((x,i)=>`<label class="check"><input type="checkbox" ${state.checklist[i]?'checked':''} onchange="state.checklist[${i}]=this.checked;queueSave();updateStats()"><span>${x}</span></label>`).join('');
+}
+function addEvidence(){state.evidence.push({type:'',title:'',link:'',note:'',area:'Projeto de Inovação'});renderEvidence();queueSave()}
+function removeEvidence(i){state.evidence.splice(i,1);renderEvidence();queueSave()}
+function renderEvidence(){
+ const w=document.getElementById('evidenceWrap');if(!state.evidence.length){w.innerHTML='<div class="empty">Nenhuma evidência cadastrada.</div>';return}
+ w.innerHTML=`<table><thead><tr><th>Área</th><th>Tipo</th><th>Título</th><th>Local/link</th><th>Descrição</th><th></th></tr></thead><tbody>${state.evidence.map((r,i)=>`<tr>
+ <td><select onchange="state.evidence[${i}].area=this.value;queueSave()">${['Projeto de Inovação','Design do Robô','Desafio do Robô','Core Values'].map(x=>`<option ${r.area===x?'selected':''}>${x}</option>`).join('')}</select></td>
+ <td><input value="${esc(r.type)}" placeholder="foto, vídeo, teste..." onchange="state.evidence[${i}].type=this.value;queueSave()"></td><td><input value="${esc(r.title)}" onchange="state.evidence[${i}].title=this.value;queueSave()"></td><td><input value="${esc(r.link)}" onchange="state.evidence[${i}].link=this.value;queueSave()"></td><td><input value="${esc(r.note)}" onchange="state.evidence[${i}].note=this.value;queueSave()"></td><td><button class="btn" onclick="removeEvidence(${i})">✕</button></td></tr>`).join('')}</tbody></table>`;
+}
+
+function addMeeting(){
+ state.meetings.push({date:'',activities:'',responsible:'',notes:''});
+ renderMeetings();queueSave();
+}
+function removeMeeting(i){
+ state.meetings.splice(i,1);renderMeetings();queueSave();
+}
+function renderMeetings(){
+ const w=document.getElementById('meetingsWrap');
+ if(!w)return;
+ if(!state.meetings.length){
+   w.innerHTML='<div class="empty">Nenhuma reunião registrada. Clique em “＋ Reunião” para começar.</div>';
+   return;
+ }
+ w.innerHTML=`<div style="overflow:auto"><table><thead><tr><th>Data</th><th>O que foi feito</th><th>Responsáveis</th><th>Observações</th><th></th></tr></thead><tbody>${
+   state.meetings.map((m,i)=>`<tr>
+    <td><input type="date" value="${esc(m.date)}" onchange="state.meetings[${i}].date=this.value;queueSave()"></td>
+    <td><textarea rows="3" placeholder="Atividades realizadas..." onchange="state.meetings[${i}].activities=this.value;queueSave()">${esc(m.activities)}</textarea></td>
+    <td><input value="${esc(m.responsible)}" placeholder="Nome(s)" onchange="state.meetings[${i}].responsible=this.value;queueSave()"></td>
+    <td><textarea rows="3" placeholder="Decisões, aprendizados ou evidências..." onchange="state.meetings[${i}].notes=this.value;queueSave()">${esc(m.notes)}</textarea></td>
+    <td><button class="btn" onclick="removeMeeting(${i})">✕</button></td>
+   </tr>`).join('')
+ }</tbody></table></div>`;
+}
+function renderSessions(){
+ const w=document.getElementById('sessionsWrap'); if(!w)return;
+ w.innerHTML=`<div class="timeline">${sessions.map((s,i)=>`<div class="timeline-item">
+ <div class="time">${i+1}</div><div><b>${s[0]} — ${s[1]}</b><div class="small muted">${s[2]}</div><input style="width:100%;margin-top:7px;border:1px solid var(--line);border-radius:8px;padding:7px" value="${esc(state.sessions[i].note)}" placeholder="Aprendizado / decisão / evidência..." onchange="state.sessions[${i}].note=this.value;queueSave()"></div>
+ <label class="tag ${state.sessions[i].done?'green':''}"><input type="checkbox" ${state.sessions[i].done?'checked':''} onchange="state.sessions[${i}].done=this.checked;renderSessions();queueSave()"> ${state.sessions[i].done?'concluída':'pendente'}</label>
+ </div>`).join('')}</div>`;
+}
+function openTaskModal(){document.getElementById('taskModal').classList.add('open');document.getElementById('taskTitle').focus()}
+function closeTaskModal(){document.getElementById('taskModal').classList.remove('open')}
+function saveTask(){
+ const title=document.getElementById('taskTitle').value.trim();if(!title)return toast('Digite o nome da tarefa.');
+ state.tasks.push({title,area:document.getElementById('taskArea').value,owner:document.getElementById('taskOwner').value,due:document.getElementById('taskDue').value,status:document.getElementById('taskStatus').value});
+ ['taskTitle','taskOwner','taskDue'].forEach(id=>document.getElementById(id).value='');closeTaskModal();renderTasks();renderKanban();queueSave();toast('Tarefa adicionada.');
+}
+function updateTask(i,field,value){state.tasks[i][field]=value;queueSave();renderTasks();renderKanban();updateStats()}
+function removeTask(i){state.tasks.splice(i,1);renderTasks();renderKanban();queueSave()}
+function renderTasks(){
+ const w=document.getElementById('nextTasks');const open=state.tasks.filter(t=>t.status!=='Concluída').slice(0,8);
+ if(!open.length){w.innerHTML='<div class="empty">Nenhuma tarefa pendente. Crie uma tarefa para definir o próximo passo da equipe.</div>';return}
+ w.innerHTML=`<div style="overflow:auto"><table><thead><tr><th>Tarefa</th><th>Área</th><th>Responsável</th><th>Prazo</th><th>Status</th><th></th></tr></thead><tbody>${open.map(t=>{const i=state.tasks.indexOf(t);return `<tr>
+ <td><input value="${esc(t.title)}" onchange="updateTask(${i},'title',this.value)"></td>
+ <td><select onchange="updateTask(${i},'area',this.value)">${['Projeto de Inovação','Design do Robô','Desafio do Robô','Core Values','Equipe'].map(x=>`<option ${t.area===x?'selected':''}>${x}</option>`).join('')}</select></td>
+ <td><input value="${esc(t.owner||'')}" onchange="updateTask(${i},'owner',this.value)"></td>
+ <td><input type="date" value="${esc(t.due||'')}" onchange="updateTask(${i},'due',this.value)"></td>
+ <td><select onchange="updateTask(${i},'status',this.value)"><option ${t.status==='A fazer'?'selected':''}>A fazer</option><option ${t.status==='Em andamento'?'selected':''}>Em andamento</option><option ${t.status==='Concluída'?'selected':''}>Concluída</option></select></td>
+ <td><button class="btn" onclick="removeTask(${i})">✕</button></td></tr>`}).join('')}</tbody></table></div>`;
+}
+
+function renderKanban(){
+ const cols=['A fazer','Em andamento','Concluída'];
+ document.getElementById('kanban').innerHTML=cols.map(c=>`<div class="column"><h4>${c}</h4>${state.tasks.filter(t=>t.status===c).map(t=>{const i=state.tasks.indexOf(t);return `<div class="task"><input value="${esc(t.title)}" style="width:100%;border:1px solid var(--line);border-radius:8px;padding:6px;font-weight:800" onchange="updateTask(${i},'title',this.value)"><small>${esc(t.area)}${t.owner?' • '+esc(t.owner):''}</small><select style="width:100%;margin-top:7px;border:1px solid var(--line);border-radius:8px;padding:6px" onchange="updateTask(${i},'status',this.value)"><option ${c==='A fazer'?'selected':''}>A fazer</option><option ${c==='Em andamento'?'selected':''}>Em andamento</option><option ${c==='Concluída'?'selected':''}>Concluída</option></select><button class="btn no-print" style="margin-top:7px" onclick="removeTask(${i})">✕ Remover</button></div>`}).join('')||'<div class="small muted">Sem tarefas.</div>'}</div>`).join('');
+}
+
+const innovationRubric=[
+ ['IDENTIFICAÇÃO','Problema claramente definido e bem pesquisado.',['Definição pouco clara do problema / pesquisa mínima','Definição parcialmente clara / pesquisa parcial de uma ou mais fontes','Definição clara / pesquisa detalhada de variedade de fontes','Que evidência demonstra excelência?']],
+ ['DESIGN','Plano de projeto e desenvolvimento das ideias com participação da equipe.',['Plano mínimo / participação mínima','Plano parcial / participação parcial','Plano claro / participação clara de todos','Que evidência demonstra excelência?']],
+ ['CRIAÇÃO','Solução inovadora representada por protótipo/desenho.',['Explicação mínima / protótipo pouco claro','Explicação simples / protótipo simples','Explicação detalhada / protótipo detalhado','Que evidência demonstra excelência?']],
+ ['ITERAÇÃO','Compartilhamento, feedback e melhorias na solução.',['Compartilhamento mínimo / melhorias mínimas','Compartilhamento com pelo menos um grupo / melhorias parciais','Compartilhamento com vários grupos / melhorias claras','Que evidência demonstra excelência?']],
+ ['COMUNICAÇÃO','Explicação da solução, impacto potencial e celebração do progresso.',['Explicação pouco clara / entusiasmo mínimo','Explicação parcialmente clara / entusiasmo parcial','Explicação clara / orgulho ou entusiasmo claro','Que evidência demonstra excelência?']]
+];
+const designRubric=[
+ ['IDENTIFICAÇÃO','Estratégia de missão, recursos de construção/codificação e orientação quando necessário.',['Evidências mínimas de estratégia / uso mínimo de recursos','Evidências parciais / uso de alguns recursos','Evidências claras / uso claro de recursos para apoiar a estratégia','Que evidência demonstra excelência?']],
+ ['DESIGN','Colaboração e desenvolvimento de habilidades de construção e codificação.',['Participação e habilidades mínimas','Participação e habilidades parciais','Todos contribuem e demonstram habilidades claras','Que evidência demonstra excelência?']],
+ ['CRIAÇÃO','Designs originais ou melhorias coerentes com a estratégia.',['Explicação pouco clara de acessórios e código/sensores','Explicação simples','Explicação clara de acessórios inovadores e uso inovador de código/sensores','Que evidência demonstra excelência?']],
+ ['ITERAÇÃO','Testes repetidos e melhorias baseadas nos resultados.',['Evidências mínimas de testes/melhorias','Evidências parciais','Evidências claras de testes repetidos e melhorias','Que evidência demonstra excelência?']],
+ ['COMUNICAÇÃO','Explicação do processo, lições aprendidas e celebração do progresso.',['Explicação pouco clara / orgulho mínimo','Explicação simples / orgulho parcial','Explicação detalhada / orgulho ou entusiasmo claro','Que evidência demonstra excelência?']]
+];
+function initProjectPlan(){
+ if(!state.projectPlan.length){
+  state.projectPlan=projectPlanPhases.flatMap((p,pi)=>p.tasks.map((task,ti)=>({phase:pi,task,done:false,owner:'',due:'',status:'A fazer',evidence:''})));
+ }
+}
+function renderProjectPlan(){
+ const w=document.getElementById('projectPlanWrap');if(!w)return;
+ initProjectPlan();
+ w.innerHTML=projectPlanPhases.map((p,pi)=>{
+  const rows=state.projectPlan.filter(x=>x.phase===pi);
+  return `<div class="plan-phase">
+   <div class="plan-phase-head"><h4>Fase ${p.phase} — ${p.title}</h4><span>${p.moment}</span></div>
+   <div class="plan-help">${p.help}</div>
+   ${rows.map((r,ri)=>{const idx=state.projectPlan.indexOf(r);return `<div class="plan-task">
+    <input class="plan-done" type="checkbox" ${r.done?'checked':''} onchange="state.projectPlan[${idx}].done=this.checked;queueSave();renderProjectPlan()">
+    <div><b>${esc(r.task)}</b></div>
+    <select onchange="state.projectPlan[${idx}].status=this.value;queueSave()"><option ${r.status==='A fazer'?'selected':''}>A fazer</option><option ${r.status==='Em andamento'?'selected':''}>Em andamento</option><option ${r.status==='Concluída'?'selected':''}>Concluída</option></select>
+    <input value="${esc(r.owner)}" placeholder="Responsável" onchange="state.projectPlan[${idx}].owner=this.value;queueSave()">
+    <input type="date" value="${esc(r.due)}" onchange="state.projectPlan[${idx}].due=this.value;queueSave()">
+    <textarea placeholder="Evidência / resultado da atividade" onchange="state.projectPlan[${idx}].evidence=this.value;queueSave()">${esc(r.evidence)}</textarea>
+   </div>`}).join('')}
+  </div>`;
+ }).join('');
+}
+
+function renderRubricSet(id,arr,prefix){
+ document.getElementById(id).innerHTML=arr.map((r,i)=>`<div class="rubric">
+ <div class="rubric-head">${r[0]} <span class="small muted">— ${r[1]}</span></div>
+ <div class="rubric-body"><div class="level-grid">${r[2].map((x,l)=>`<label class="level ${getRubric(prefix,i)===l+1?'active':''}"><input type="radio" name="${prefix}${i}" value="${l+1}" ${getRubric(prefix,i)===l+1?'checked':''} onchange="setRubric('${prefix}',${i},${l+1})"> <strong>${l+1}</strong>${x}</label>`).join('')}</div></div>
+ </div>`).join('');
+}
+function getRubric(prefix,i){return Number(state['rubric_'+prefix+'_'+i]||0)}
+function setRubric(prefix,i,v){state['rubric_'+prefix+'_'+i]=v;queueSave();renderRubrics();updateStats()}
+function renderRubrics(){renderRubricSet('innovationRubric',innovationRubric,'inv');renderRubricSet('designRubric',designRubric,'des')}
+function showSubtab(area,name){
+ document.querySelectorAll('#'+area+' .subview').forEach(x=>x.style.display='none');
+ document.getElementById(area+'-'+name).style.display='block';
+ document.querySelectorAll('#'+area+'Tabs .tab').forEach((b,i)=>b.classList.toggle('active',b.textContent.startsWith((['problem','research','solution','feedback','pitch'].indexOf(name)+1)+'.')));
+}
+
+let timerSeconds=150,timerInt=null;
+function updateTimer(){const m=Math.floor(timerSeconds/60),s=timerSeconds%60;document.getElementById('timer').textContent=`${m}:${String(s).padStart(2,'0')}`}
+function startTimer(){if(timerInt)return;document.getElementById('timerState').textContent='Treino em andamento';timerInt=setInterval(()=>{if(timerSeconds<=0){clearInterval(timerInt);timerInt=null;document.getElementById('timerState').textContent='Tempo encerrado!';return}timerSeconds--;updateTimer()},1000)}
+function pauseTimer(){clearInterval(timerInt);timerInt=null;document.getElementById('timerState').textContent='Treino pausado'}
+function resetTimer(){pauseTimer();timerSeconds=150;updateTimer();document.getElementById('timerState').textContent='Pronto para treinar'}
+
+function updateStats(){
+ const totalTasks=state.tasks.length, doneTasks=state.tasks.filter(t=>t.status==='Concluída').length;
+ const taskPct=totalTasks?Math.round(doneTasks/totalTasks*100):0;
+ const invVals=innovationRubric.map((_,i)=>getRubric('inv',i)).filter(Boolean);const invPct=invVals.length?Math.round(invVals.reduce((a,b)=>a+b,0)/(invVals.length*4)*100):0;
+ const desVals=designRubric.map((_,i)=>getRubric('des',i)).filter(Boolean);const desPct=desVals.length?Math.round(desVals.reduce((a,b)=>a+b,0)/(desVals.length*4)*100):0;
+ const missionSelected=state.missions.filter(m=>m.selected).length;const missionTested=state.missions.filter(m=>(Number(m.runs)||0)>0).length;
+ const chPct=Math.round((missionSelected/15*.4+missionTested/15*.6)*100);
+ const valPct=Math.min(100,Math.round((state.coreEvidence.length/6)*100));
+ const checks=Object.values(state.checklist).filter(Boolean).length;
+ document.getElementById('pInnovation').style.width=invPct+'%';document.getElementById('tInnovation').textContent=invPct+'% de autoavaliação';
+ document.getElementById('pDesign').style.width=desPct+'%';document.getElementById('tDesign').textContent=desPct+'% de autoavaliação';
+ document.getElementById('pChallenge').style.width=chPct+'%';document.getElementById('tChallenge').textContent=chPct+'% de planejamento/treino';
+ document.getElementById('pValues').style.width=valPct+'%';document.getElementById('tValues').textContent=valPct+'% de cobertura de evidências';
+ document.getElementById('stats').innerHTML=[
+  ['📌',totalTasks,`tarefas (${doneTasks} concluídas)`],
+  ['💡',invPct+'%', 'Projeto de Inovação'],
+  ['🤖',desPct+'%', 'Design do Robô'],
+  ['🏁',bestScore(),`melhor pontuação • ${state.errorChecks.length} checagens • checklist ${checks}/${eventItems.length}`]
+ ].map(s=>`<div class="stat"><div>${s[0]}</div><div class="n">${s[1]}</div><div class="l">${s[2]}</div></div>`).join('');
+}
+function bestScore(){return state.matches.length?Math.max(...state.matches.map(m=>Number(m.score)||0)):'—'}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function toggleSpecificCard(id){
+ const card=document.getElementById(id);if(!card)return;
+ const collapsed=!card.classList.contains('specific-collapsed');
+ card.classList.toggle('specific-collapsed',collapsed);
+ const arrow=card.querySelector('.specific-summary-arrow');if(arrow)arrow.textContent=collapsed?'▸':'▾';
+ state.uiCollapsed ||= {};
+    if(state.uiCollapsed.specific_teamDataCard===undefined) state.uiCollapsed.specific_teamDataCard=true; state.uiCollapsed['specific_'+id]=collapsed; queueSave();
+}
+function restoreSpecificCollapsed(){
+ document.querySelectorAll('.specific-collapsible').forEach(card=>{
+  const saved=(state.uiCollapsed||{})['specific_'+card.id];
+  const collapsed=saved===undefined ? true : !!saved;
+  card.classList.toggle('specific-collapsed',collapsed);
+  const arrow=card.querySelector('.specific-summary-arrow');if(arrow)arrow.textContent=collapsed?'▸':'▾';
+ });
+ updateTeamDataSummary();
+}
+function updateTeamDataSummary(){
+ const name=String(state.team.teamName||'').trim()||'Nome da equipe';
+ const c1=String(state.team.coach1||'').trim(),c2=String(state.team.coach2||'').trim();
+ const coaches=[c1,c2].filter(Boolean).join(' • ')||'Técnico(a) não informado';
+ const el=document.getElementById('teamDataSummary');if(el)el.textContent=name+' • '+coaches;
+}
+
+function enhanceCollapsibles(){
+ document.querySelectorAll('.card').forEach((card,idx)=>{
+  if(card.closest('.modal'))return;
+  if(card.classList.contains('specific-collapsible') || card.classList.contains('member-card-collapsible'))return;
+  if(card.dataset.collapsibleReady)return;
+  const editable=card.querySelector('input,textarea,select,[data-bind]');
+  if(!editable)return;
+  card.dataset.collapsibleReady='1';
+  const key=card.id||('card_'+idx+'_'+Array.from(document.querySelectorAll('.card')).indexOf(card));
+  card.dataset.collapsibleKey=key;
+  const savedCollapsed=state.uiCollapsed[key];
+  const collapsed=savedCollapsed===undefined ? true : !!savedCollapsed;
+  const content=document.createElement('div');
+  content.className='collapse-content';
+  while(card.firstChild)content.appendChild(card.firstChild);
+  const toolbar=document.createElement('div');toolbar.className='collapse-toolbar no-print';
+  const heading=card.querySelector('h3,h4,h2');
+  const title=(heading&&heading.textContent.trim()) || 'Informações';
+  const button=document.createElement('button');
+  button.type='button';
+  button.className='collapse-toggle';
+  button.title='Clique no título para mostrar ou ocultar as informações';
+  button.innerHTML=`<span class="collapse-title"><span class="collapse-title-text">${esc(title)}</span></span><span class="collapse-arrow">${collapsed?'▸':'▾'}</span>`;
+  button.onclick=function(){toggleCardCollapse(this)};
+  toolbar.appendChild(button);
+  card.appendChild(toolbar);card.appendChild(content);
+  if(collapsed)card.classList.add('collapsed');
+ });
+}
+function toggleCardCollapse(btn){
+ const card=btn.closest('.card');if(!card)return;
+ const key=card.dataset.collapsibleKey || card.id || Array.from(document.querySelectorAll('.card')).indexOf(card);
+ const collapsed=!card.classList.contains('collapsed');
+ card.classList.toggle('collapsed',collapsed);
+ const arrow=btn.querySelector('.collapse-arrow');
+ if(arrow)arrow.textContent=collapsed?'▸':'▾';
+ state.uiCollapsed[key]=collapsed;queueSave();
+}
+function renderAllDelayed(){renderAll();bindInputs()}
+load();
+optimizeStoredImages();
+initProjectPlan();
+renderTeamLogo();
+</script>
+</body>
+</html>
